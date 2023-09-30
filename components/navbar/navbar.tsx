@@ -1,5 +1,5 @@
-import { Navbar } from "@nextui-org/react";
-import Link from "next/link";
+import { Link, Navbar } from "@nextui-org/react";
+
 import React from "react";
 import { Box } from "../styles/box";
 import { BurguerButton } from "./burguer-button";
