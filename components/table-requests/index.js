@@ -105,7 +105,7 @@ export const TableWrapper = () => {
               justifyContent: "flex-start",
             }}
           >
-            Actions
+            Reply
           </Table.Column>
         </Table.Header>
         <Table.Body>

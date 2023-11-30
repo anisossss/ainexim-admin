@@ -13,10 +13,8 @@ export const SidebarMenu = ({ title, children }: Props) => {
       <Text
         span
         size={"$xs"}
-        weight={"normal"}
         css={{
           letterSpacing: "0.04em",
-          lineHeight: "$xs",
         }}
       >
         {title}

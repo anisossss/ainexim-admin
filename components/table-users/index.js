@@ -27,21 +27,9 @@ import { useRouter } from "next/router";
 export const TableWrapper = () => {
   const router = useRouter();
   const { accessToken } = useSelector((state) => state.auth);
-  const [addCreditsVisible, setAddCreditsVisible] = useState(false);
   const [deleteUserVisible, setDeleteUserVisible] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
-  const openAddCreditsModal = (user) => {
-    setSelectedUser(user);
-    setAddCreditsVisible(true);
-  };
-  const openDeleteUserModal = (user) => {
-    setSelectedUser(user);
-    setDeleteUserVisible(true);
-  };
-  const closeAddCreditsModal = () => {
-    setAddCreditsVisible(false);
-    setSelectedUser(null);
-  };
+
   const closeDeleteUserModal = () => {
     setDeleteUserVisible(false);
     setSelectedUser(null);
@@ -70,33 +58,17 @@ export const TableWrapper = () => {
       fileName: "All users",
       sheet: "All users",
       tablePayload: {
-        header: ["Email", "Verified", "Orders", "Current Plan", "Credits"],
+        header: ["Email", "Verified", "Orders", "Current Plan"],
         body: users.map((item) => [
           item.email,
           item.verified,
           item.orders,
           item.currentPlan,
-          item.credits,
         ]),
       },
     });
   }
-  const [creditsToAdd, setCreditsToAdd] = useState(0);
 
-  const handleAddCredits = async () => {
-    try {
-      const headers = { Authorization: accessToken };
-      const response = await axios.post(
-        `${CONSTANTS.API_URL_PROD}/admin/add-credits/${selectedUser._id}`,
-        { credits: creditsToAdd },
-        { headers }
-      );
-      console.log("Credits added successfully");
-      router.reload();
-    } catch (error) {
-      console.error("Error adding credits", error);
-    }
-  };
 
   const handleDeleteUser = async () => {
     try {
@@ -141,7 +113,6 @@ export const TableWrapper = () => {
           <Table.Column>Verified</Table.Column>
           <Table.Column>Orders</Table.Column>
           <Table.Column>Current Plan</Table.Column>
-          <Table.Column>Credits</Table.Column>
           <Table.Column css={{ textAlign: "center" }}>Actions</Table.Column>
         </Table.Header>
         <Table.Body>
@@ -151,7 +122,6 @@ export const TableWrapper = () => {
               <Table.Cell>{user.emailVerified ? "✅" : "❌"}</Table.Cell>
               <Table.Cell>{user.orders.length}</Table.Cell>
               <Table.Cell>{user.currentPlan}</Table.Cell>
-              <Table.Cell>{user.credits}</Table.Cell>
               <Table.Cell>
                 <Row justify="center" align="center">
                   <Col>

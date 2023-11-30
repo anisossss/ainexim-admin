@@ -64,7 +64,7 @@ export const SidebarItem = ({ icon, title, isActive, href = "" }: Props) => {
           <Text
             span
             weight={"normal"}
-            size={"$base"}
+            size={"$sm"}
             css={{
               color: "$accents9",
             }}
