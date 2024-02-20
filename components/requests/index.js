@@ -58,14 +58,11 @@ export const Requests = () => {
         <Crumb>
           <ReportsIcon />
           <CrumbLink href="#">Requests</CrumbLink>
-          <Text>/</Text>
         </Crumb>
-        <Crumb>
-          <CrumbLink href="#">List</CrumbLink>
-        </Crumb>
+       
       </Breadcrumbs>
 
-      <Text h3>All Requests</Text>
+      <Text h3>All Support Requests</Text>
 
       <TableWrapper />
     </Flex>

@@ -48,7 +48,7 @@ export const AddUser = () => {
   return (
     <div>
       <Button auto onClick={handler} color={"primary"}>
-        Add member
+        Add user
       </Button>
       <Modal
         closeButton
@@ -56,6 +56,7 @@ export const AddUser = () => {
         width="600px"
         open={visible}
         onClose={closeHandler}
+        css={{ backgroundColor: "#252525" }}
       >
         <Toaster
           position="top-center"
@@ -64,7 +65,7 @@ export const AddUser = () => {
           }}
         />
         <Modal.Header css={{ justifyContent: "start" }}>
-          <Text id="modal-title" h4>
+          <Text id="modal-title" b size={"$2xl"}>
             Add new user
           </Text>
         </Modal.Header>
@@ -88,7 +89,6 @@ export const AddUser = () => {
               <Input
                 label="Name"
                 clearable
-                bordered
                 fullWidth
                 size="lg"
                 placeholder="Last Name"
@@ -98,7 +98,6 @@ export const AddUser = () => {
               <Input
                 label="Email"
                 clearable
-                bordered
                 fullWidth
                 size="lg"
                 placeholder="Email"
@@ -117,7 +116,6 @@ export const AddUser = () => {
               <Input
                 label="Password"
                 clearable
-                bordered
                 fullWidth
                 size="lg"
                 placeholder="Password"
@@ -127,7 +125,6 @@ export const AddUser = () => {
               <Input
                 label="Confirm Password"
                 clearable
-                bordered
                 fullWidth
                 size="lg"
                 placeholder="Confirm Password"
@@ -140,7 +137,7 @@ export const AddUser = () => {
         <Divider css={{ my: "$5" }} />
         <Modal.Footer>
           <Button auto onClick={addUser} color={"primary"}>
-            Add memeber
+            Add user
           </Button>
         </Modal.Footer>
       </Modal>

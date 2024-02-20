@@ -17,12 +17,11 @@ import { DeleteIcon } from "../icons/table/delete-icon";
 import { BsDatabaseAdd } from "react-icons/bs";
 import { downloadExcel } from "react-export-table-to-excel";
 import { AiFillFileExcel } from "react-icons/ai";
-import { AddUser } from "./add-user.js";
 import { Flex } from "../styles/flex";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/router";
 
-export const TableWrapper = () => {
+export const TableWaitlist = () => {
   const [visible, setVisible] = useState(false);
   const router = useRouter();
   const { accessToken } = useSelector((state) => state.auth);
@@ -88,7 +87,6 @@ export const TableWrapper = () => {
   return (
     <>
       <Flex direction={"row"} css={{ gap: "$6" }} wrap={"wrap"}>
-        <AddUser />
         <Button
           auto
           onClick={handleDownloadExcel}

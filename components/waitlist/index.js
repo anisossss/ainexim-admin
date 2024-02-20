@@ -1,15 +1,13 @@
-import { Button, Input, Text } from "@nextui-org/react";
+import { Text } from "@nextui-org/react";
 import Link from "next/link";
 import { Breadcrumbs, Crumb, CrumbLink } from "../breadcrumb/breadcrumb.styled";
 import { HouseIcon } from "../icons/breadcrumb/house-icon";
 import { UsersIcon } from "../icons/breadcrumb/users-icon";
 import { Flex } from "../styles/flex";
-import { TableWrapper } from "../table-users";
+import { TableWaitlist } from "../table-waitlist";
 import { useSelector } from "react-redux";
 import { CONSTANTS } from "../../constants/index.js";
 import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
-import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 
 export const Waitlist = () => {
@@ -55,17 +53,13 @@ export const Waitlist = () => {
 
         <Crumb>
           <UsersIcon />
-          <CrumbLink href="#">Users</CrumbLink>
-          <Text>/</Text>
-        </Crumb>
-        <Crumb>
-          <CrumbLink href="#">List</CrumbLink>
+          <CrumbLink href="#">Waitlist</CrumbLink>
         </Crumb>
       </Breadcrumbs>
 
-      <Text h3>All members</Text>
+      <Text h3>Waitlist subscribers</Text>
 
-      <TableWrapper />
+      <TableWaitlist />
     </Flex>
   );
 };

@@ -58,11 +58,8 @@ export const Orders = () => {
         <Crumb>
           <PaymentsIcon />
           <CrumbLink href="#">Orders</CrumbLink>
-          <Text>/</Text>
         </Crumb>
-        <Crumb>
-          <CrumbLink href="#">List</CrumbLink>
-        </Crumb>
+      
       </Breadcrumbs>
 
       <Text h3>All Orders</Text>
