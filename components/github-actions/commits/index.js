@@ -71,7 +71,9 @@ export const CommitsHistory = () => {
           }}
         >
           <Table.Header>
-            <Table.Column css={{ minWidth: "40em" }}>Commit Message</Table.Column>
+            <Table.Column css={{ minWidth: "40em" }}>
+              Commit Message
+            </Table.Column>
             <Table.Column>Author</Table.Column>
             <Table.Column>Date</Table.Column>
             <Table.Column>Actions</Table.Column>
@@ -79,12 +81,20 @@ export const CommitsHistory = () => {
           <Table.Body>
             {commits.map((commit) => (
               <Table.Row key={commit.sha}>
-                <Table.Cell  css={{ maxWidth: "20em" }}>
-                  {commit.commit.message}
+                <Table.Cell css={{ maxWidth: "20em" }}>
+                  <Text span size={"$sm"}>
+                    {commit.commit.message}
+                  </Text>
                 </Table.Cell>
-                <Table.Cell>{commit.commit.author.name}</Table.Cell>
                 <Table.Cell>
-                  {new Date(commit.commit.author.date).toLocaleString()}
+                  <Text span size={"$sm"}>
+                    {commit.commit.author.name}
+                  </Text>
+                </Table.Cell>
+                <Table.Cell>
+                  <Text span size={"$sm"}>
+                    {new Date(commit.commit.author.date).toLocaleString()}
+                  </Text>
                 </Table.Cell>
                 <Table.Cell>
                   <Link href="">
@@ -93,7 +103,7 @@ export const CommitsHistory = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      View  
+                      View
                     </a>
                   </Link>
                 </Table.Cell>

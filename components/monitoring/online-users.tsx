@@ -23,7 +23,6 @@ import toast, { Toaster } from "react-hot-toast";
 export const OnlineUsers = () => {
   const [visible, setVisible] = useState(false);
   const router = useRouter();
-  const { accessToken } = useSelector((state) => state.auth);
   const [deleteUserVisible, setDeleteUserVisible] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const handler = () => setVisible(true);
@@ -38,10 +37,7 @@ export const OnlineUsers = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const headers = { Authorization: accessToken };
-        const response = await axios.get(url, {
-          headers,
-        });
+        const response = await axios.get(url, {});
         console.log("data", response.data.users);
         setUsers(response.data.users);
       } catch (error) {
@@ -54,15 +50,6 @@ export const OnlineUsers = () => {
     downloadExcel({
       fileName: "All users",
       sheet: "All users",
-      tablePayload: {
-        header: [" "],
-        body: users.map((item) => [
-          item.email,
-          item.verified,
-          item.orders,
-          item.currentPlan,
-        ]),
-      },
     });
   }
   return (
@@ -93,7 +80,7 @@ export const OnlineUsers = () => {
           >
             Export to CSV
           </Button>
-        </Flex>{" "}
+        </Flex>
         <br></br>
         <br></br>
         <Table
@@ -117,28 +104,108 @@ export const OnlineUsers = () => {
           </Table.Header>
           <Table.Body>
             <Table.Row>
-              <Table.Cell>AX2545</Table.Cell>
-              <Table.Cell>ANIS KHALEF</Table.Cell>
-              <Table.Cell>AX_01</Table.Cell>
-              <Table.Cell>2024-02-19</Table.Cell>
-              <Table.Cell>In Progress</Table.Cell>
-              <Table.Cell>Team 1</Table.Cell>
-              <Table.Cell>Available</Table.Cell>
-              <Table.Cell>JavaScript, React</Table.Cell>
-              <Table.Cell>5</Table.Cell>
-              <Table.Cell>2024-02-18 3:30 PM</Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  AX2545
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  ANIS KHALEF
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  AX_01
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  2024-02-19
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  In Progress
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  Team 1
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  Available
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  JavaScript, React
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  5
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  2024-02-18 3:30 PM
+                </Text>
+              </Table.Cell>
             </Table.Row>
             <Table.Row>
-              <Table.Cell>AX1345</Table.Cell>
-              <Table.Cell>KABELO MBEWE</Table.Cell>
-              <Table.Cell>AX_17</Table.Cell>
-              <Table.Cell>2024-02-19</Table.Cell>
-              <Table.Cell>In Progress</Table.Cell>
-              <Table.Cell>Team 2</Table.Cell>
-              <Table.Cell>Busy</Table.Cell>
-              <Table.Cell>Python, Django</Table.Cell>
-              <Table.Cell>8</Table.Cell>
-              <Table.Cell>2024-02-18 5:15 PM</Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  AX1345
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  KABELO MBEWE
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  AX_17
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  2024-02-19
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  In Progress
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  Team 2
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  Busy
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  Python, Django
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  8
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  2024-02-18 5:15 PM
+                </Text>
+              </Table.Cell>
             </Table.Row>
           </Table.Body>
         </Table>

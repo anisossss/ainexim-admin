@@ -35,7 +35,48 @@ export const PullRequests = () => {
     };
     fetchPullRequests();
   }, []);
-
+  const examplePullRequests = [
+    {
+      id: 1,
+      title: "Update README.md with project documentation",
+      author: "aniskhalef",
+      status: "Open",
+      createdAt: "February 15, 2024",
+      comments: 3,
+    },
+    {
+      id: 2,
+      title: "Fix bug in login authentication",
+      author: "kabelombewe",
+      status: "Closed",
+      createdAt: "February 10, 2024",
+      comments: 2,
+    },
+    {
+      id: 3,
+      title: "Add feature for user profile customization",
+      author: "aniskhalef",
+      status: "Open",
+      createdAt: "February 8, 2024",
+      comments: 1,
+    },
+    {
+      id: 4,
+      title: "Refactor codebase to improve performance",
+      author: "cibelle",
+      status: "Merged",
+      createdAt: "February 5, 2024",
+      comments: 5,
+    },
+    {
+      id: 5,
+      title: "Implement new design for homepage",
+      author: "axel",
+      status: "Open",
+      createdAt: "February 3, 2024",
+      comments: 0,
+    },
+  ];
   return (
     <>
       <Flex
@@ -57,7 +98,7 @@ export const PullRequests = () => {
           >
             Pull Requests History
           </Text>
-        </Flex>{" "}
+        </Flex>
         <br></br>
         <br></br>
         <Table
@@ -68,22 +109,38 @@ export const PullRequests = () => {
           }}
         >
           <Table.Header>
-            <Table.Column>Email</Table.Column>
-            <Table.Column>Verified</Table.Column>
-            <Table.Column>Orders</Table.Column>
-            <Table.Column>Current Plan</Table.Column>
-            <Table.Column css={{ textAlign: "center" }}>Actions</Table.Column>
+            <Table.Column>Title</Table.Column>
+            <Table.Column>Author</Table.Column>
+            <Table.Column>Status</Table.Column>
+            <Table.Column>Created At</Table.Column>
+            <Table.Column css={{ textAlign: "center" }}>Comments</Table.Column>
           </Table.Header>
           <Table.Body>
-            {pullRequests.map((pullRequest) => (
-              <Table.Row key={pullRequest._id}>
-                <Table.Cell> </Table.Cell>
-                <Table.Cell> </Table.Cell>
-                <Table.Cell> </Table.Cell>
-                <Table.Cell></Table.Cell>
+            {examplePullRequests.map((pullRequest) => (
+              <Table.Row key={pullRequest.id}>
+                <Table.Cell>
+                  <Text span size={"$sm"}>
+                    {pullRequest.title}
+                  </Text>
+                </Table.Cell>
+                <Table.Cell>
+                  <Text span size={"$sm"}>
+                    {pullRequest.author}
+                  </Text>
+                </Table.Cell>
+                <Table.Cell>
+                  <Text span size={"$sm"}>
+                    {pullRequest.status}
+                  </Text>
+                </Table.Cell>
+                <Table.Cell>
+                  <Text span size={"$sm"}>
+                    {pullRequest.createdAt}
+                  </Text>
+                </Table.Cell>
                 <Table.Cell>
                   <Row justify="center" align="center">
-                    <Col></Col>
+                    <Col>{pullRequest.comments}</Col>
                   </Row>
                 </Table.Cell>
               </Table.Row>

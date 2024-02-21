@@ -69,11 +69,25 @@ export const RepoEvents = () => {
           <Table.Body>
             {repoEvents.map((repoEvent) => (
               <Table.Row key={repoEvent.id}>
-                <Table.Cell>{repoEvent.type}</Table.Cell>
-                <Table.Cell>{repoEvent.actor.login}</Table.Cell>
-                <Table.Cell>{repoEvent.repo.name}</Table.Cell>
                 <Table.Cell>
-                  {new Date(repoEvent.created_at).toLocaleString()}
+                  <Text span size={"$sm"}>
+                    {repoEvent.type}
+                  </Text>
+                </Table.Cell>
+                <Table.Cell>
+                  <Text span size={"$sm"}>
+                    {repoEvent.actor.login}
+                  </Text>
+                </Table.Cell>
+                <Table.Cell>
+                  <Text span size={"$sm"}>
+                    {repoEvent.repo.name}
+                  </Text>
+                </Table.Cell>
+                <Table.Cell>
+                  <Text span size={"$sm"}>
+                    {new Date(repoEvent.created_at).toLocaleString()}
+                  </Text>
                 </Table.Cell>
                 <Table.Cell>{/* Actions */}</Table.Cell>
               </Table.Row>

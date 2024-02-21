@@ -59,24 +59,35 @@ export const BranchesDetails = () => {
             <Table.Column>Last Commit SHA</Table.Column>
             <Table.Column>Protected</Table.Column>
             <Table.Column>Protection Enabled</Table.Column>
-            <Table.Column>Required Status Checks</Table.Column>
             <Table.Column>Last Commit URL</Table.Column>
             <Table.Column>Protection URL</Table.Column>
           </Table.Header>
           <Table.Body>
             {branches.map((branch) => (
               <Table.Row key={branch.name}>
-                <Table.Cell>{branch.name}</Table.Cell>
+                <Table.Cell>
+                  <Text span size={"$sm"}>
+                    {branch.name}
+                  </Text>
+                </Table.Cell>
                 <Table.Cell css={{ maxWidth: "10em" }}>
-                  {branch.commit.sha}
+                  <Text span size={"$sm"}>
+                    {branch.commit.sha}
+                  </Text>
                 </Table.Cell>
 
-                <Table.Cell>{branch.protected.toString()}</Table.Cell>
-                <Table.Cell>{branch.protection.enabled.toString()}</Table.Cell>
                 <Table.Cell>
-                  {branch.protection.required_status_checks.enforcement_level}
+                  <Text span size={"$sm"}>
+                    {branch.protected.toString()}
+                  </Text>
                 </Table.Cell>
-                <Table.Cell css={{ maxWidth: "10em" }}>
+                <Table.Cell>
+                  <Text span size={"$sm"}>
+                    {branch.protection.enabled.toString()}
+                  </Text>
+                </Table.Cell>
+
+                <Table.Cell css={{ maxWidth: "20em", fontSize: "14px" }}>
                   <a
                     href={branch.commit.url}
                     target="_blank"
@@ -85,7 +96,7 @@ export const BranchesDetails = () => {
                     {branch.commit.url}
                   </a>
                 </Table.Cell>
-                <Table.Cell css={{ maxWidth: "20em" }}>
+                <Table.Cell css={{ maxWidth: "20em", fontSize: "14px" }}>
                   <a
                     href={branch.protection_url}
                     target="_blank"

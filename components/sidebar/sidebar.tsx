@@ -17,10 +17,8 @@ import { RiGitRepositoryCommitsLine } from "react-icons/ri";
 import { IoGitCommitSharp } from "react-icons/io5";
 import { GoGitPullRequest } from "react-icons/go";
 import { GoOrganization } from "react-icons/go";
-import { LiaKeySolid } from "react-icons/lia";
 import { GoGitBranch } from "react-icons/go";
 import { AiOutlineUserSwitch } from "react-icons/ai";
-import { BsPersonLinesFill } from "react-icons/bs";
 import { RiUserLocationLine } from "react-icons/ri";
 
 export const SidebarWrapper = () => {
@@ -37,7 +35,7 @@ export const SidebarWrapper = () => {
           overflowY: "scroll",
         }}
       >
-        <Grid align="center" css={{ position: "absolute", top: 0 }}>
+        <Grid css={{ position: "absolute", top: 0 }}>
           <Image
             src={"/logo/logo_footer.svg"}
             width={50}

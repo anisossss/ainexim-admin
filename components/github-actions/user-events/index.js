@@ -49,7 +49,7 @@ export const UsersEvents = () => {
           >
             Authenticated User Events
           </Text>
-        </Flex>{" "}
+        </Flex>
         <br></br>
         <br></br>
         <Table aria-label="User Events Table" css={{ height: "auto", px: 0 }}>
@@ -63,12 +63,30 @@ export const UsersEvents = () => {
           <Table.Body>
             {userEvents.map((event) => (
               <Table.Row key={event.id}>
-                <Table.Cell>{event.type}</Table.Cell>
-                <Table.Cell>{event.actor.login}</Table.Cell>
-                <Table.Cell>{event.repo.name}</Table.Cell>
-                <Table.Cell>{event.payload.action}</Table.Cell>
                 <Table.Cell>
-                  {new Date(event.created_at).toLocaleString()}
+                  <Text span size={"$sm"}>
+                    {event.type}
+                  </Text>
+                </Table.Cell>
+                <Table.Cell>
+                  <Text span size={"$sm"}>
+                    {event.actor.login}
+                  </Text>
+                </Table.Cell>
+                <Table.Cell>
+                  <Text span size={"$sm"}>
+                    {event.repo.name}
+                  </Text>
+                </Table.Cell>
+                <Table.Cell>
+                  <Text span size={"$sm"}>
+                    {event.payload.action}
+                  </Text>
+                </Table.Cell>
+                <Table.Cell>
+                  <Text span size={"$sm"}>
+                    {new Date(event.created_at).toLocaleString()}
+                  </Text>
                 </Table.Cell>
               </Table.Row>
             ))}

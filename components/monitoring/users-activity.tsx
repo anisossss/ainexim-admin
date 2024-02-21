@@ -20,7 +20,6 @@ import { Flex } from "../styles/flex";
 import toast, { Toaster } from "react-hot-toast";
 export const UsersActivity = () => {
   const [visible, setVisible] = useState(false);
-  const { accessToken } = useSelector((state) => state.auth);
   const [deleteUserVisible, setDeleteUserVisible] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const handler = () => setVisible(true);
@@ -35,10 +34,7 @@ export const UsersActivity = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const headers = { Authorization: accessToken };
-        const response = await axios.get(url, {
-          headers,
-        });
+        const response = await axios.get(url, {});
         console.log("data", response.data.users);
         setUsers(response.data.users);
       } catch (error) {
@@ -51,15 +47,6 @@ export const UsersActivity = () => {
     downloadExcel({
       fileName: "All users",
       sheet: "All users",
-      tablePayload: {
-        header: ["Email", "Verified", "Orders", "Current Plan"],
-        body: users.map((item) => [
-          item.email,
-          item.verified,
-          item.orders,
-          item.currentPlan,
-        ]),
-      },
     });
   }
   return (
@@ -90,7 +77,7 @@ export const UsersActivity = () => {
           >
             Export to CSV
           </Button>
-        </Flex>{" "}
+        </Flex>
         <br></br>
         <br></br>
         <Table
@@ -112,24 +99,88 @@ export const UsersActivity = () => {
           </Table.Header>
           <Table.Body>
             <Table.Row>
-              <Table.Cell>AX2545</Table.Cell>
-              <Table.Cell>ANIS KHALEF</Table.Cell>
-              <Table.Cell>50%</Table.Cell>
-              <Table.Cell>Good</Table.Cell>
-              <Table.Cell>8.5/10</Table.Cell>
-              <Table.Cell>JavaScript, React</Table.Cell>
-              <Table.Cell>2024-02-19 11:45 AM</Table.Cell>
-              <Table.Cell>3</Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  AX2545
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  ANIS KHALEF
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  50%
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  Good
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  8.5/10
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  JavaScript, React
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  2024-02-19 11:45 AM
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  3
+                </Text>
+              </Table.Cell>
             </Table.Row>
             <Table.Row>
-              <Table.Cell>AX1345</Table.Cell>
-              <Table.Cell>KABELO MBEWE</Table.Cell>
-              <Table.Cell>80%</Table.Cell>
-              <Table.Cell>Satisfactory</Table.Cell>
-              <Table.Cell>7/10</Table.Cell>
-              <Table.Cell>Python, Django</Table.Cell>
-              <Table.Cell>2024-02-19 10:30 AM</Table.Cell>
-              <Table.Cell>2</Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  AX1345
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  KABELO MBEWE
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  80%
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  Satisfactory
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  7/10
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  Python, Django
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  2024-02-19 10:30 AM
+                </Text>
+              </Table.Cell>
+              <Table.Cell>
+                <Text span size={"$sm"}>
+                  2
+                </Text>
+              </Table.Cell>
             </Table.Row>
           </Table.Body>
         </Table>
