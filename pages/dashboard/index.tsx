@@ -8,8 +8,9 @@ const Home: NextPage = () => {
     <>
       <StatsUsers />
       <StatsResources />
-      <hr></hr>
       <br></br>
+
+      <hr></hr>
       <LatestUsers />
     </>
   );
