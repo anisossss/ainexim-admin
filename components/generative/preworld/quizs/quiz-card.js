@@ -23,8 +23,9 @@ const QuizCard = ({ quiz }) => {
 
         <Spacer y={1} />
         <Text b className="task_title">
-          Content:
+          Question:
         </Text>
+        <Text span>{quiz.question}</Text>
       </Card.Body>
     </Card>
   );

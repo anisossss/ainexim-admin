@@ -32,9 +32,10 @@ export const TableWebQuiz = () => {
           Generated Web Development Quizzes (WORLD)
         </Text>
       </Grid>
+      <br></br>
       <Grid.Container gap={2}>
         {webQuizs.map((webQuiz) => (
-          <Grid md={6} key={webQuiz._id}>
+          <Grid md={4} key={webQuiz._id}>
             <WebQuizCard webQuiz={webQuiz} />
           </Grid>
         ))}

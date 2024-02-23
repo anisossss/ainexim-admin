@@ -32,9 +32,10 @@ export const TableTests = () => {
           Generated Software Development Tests
         </Text>
       </Grid>
+      <br></br>
       <Grid.Container gap={2}>
         {tests.map((test) => (
-          <Grid md={6} key={test._id}>
+          <Grid md={4} key={test._id}>
             <TestCard test={test} />
           </Grid>
         ))}

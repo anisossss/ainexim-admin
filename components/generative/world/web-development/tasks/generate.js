@@ -104,7 +104,7 @@ export const GenerateWebTasks = () => {
       <Grid css={{ padding: "5%" }}>
         <Grid>
           <Text b size={"$2xl"}>
-            Generate Web Development Taskzes (WORLD)
+            Generate Web Development Tasks (WORLD)
           </Text>
         </Grid>
         <br></br>
@@ -176,7 +176,7 @@ export const GenerateWebTasks = () => {
             <br></br>
             <Grid>
               <Input
-                placeholder="Subject of the Taskzes"
+                placeholder="Subject of the Tasks"
                 width="100%"
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}

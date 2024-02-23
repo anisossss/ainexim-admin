@@ -29,7 +29,7 @@ export const LatestUsers = () => {
         >
           Latest users
         </Text>
-        <NextLink href="/users">
+        <NextLink href="/all-users">
           <Link
             block
             color="primary"

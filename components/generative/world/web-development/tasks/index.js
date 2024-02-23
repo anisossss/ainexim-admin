@@ -32,9 +32,10 @@ export const TableWebTasks = () => {
           Generated Web Development Tasks (WORLD)
         </Text>
       </Grid>
+   <br></br>
       <Grid.Container gap={2}>
         {webTasks.map((webTask) => (
-          <Grid md={6} key={webTask._id}>
+          <Grid md={8} key={webTask._id}>
             <WebTaskCard webTask={webTask} />
           </Grid>
         ))}

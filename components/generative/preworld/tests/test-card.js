@@ -14,9 +14,8 @@ const TestCard = ({ test }) => {
         <Text b className="task_title">
           Content:
         </Text>
-        <Spacer y={1} />
 
-        <Text span>{test.score}</Text>
+        <Text span>{test.explanation}</Text>
       </Card.Body>
     </Card>
   );
