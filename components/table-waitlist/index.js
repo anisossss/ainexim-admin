@@ -24,7 +24,7 @@ import { useRouter } from "next/router";
 export const TableWaitlist = () => {
   const [visible, setVisible] = useState(false);
   const router = useRouter();
-  const { accessToken } = useSelector((state) => state.auth);
+  const { token } = useSelector((state) => state.auth);
   const [deleteUserVisible, setDeleteUserVisible] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const handler = () => setVisible(true);
@@ -39,7 +39,7 @@ export const TableWaitlist = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const headers = { Authorization: accessToken };
+        const headers = { Authorization: token };
         const response = await axios.get(url, {
           headers,
         });
@@ -69,7 +69,7 @@ export const TableWaitlist = () => {
 
   const handleDeleteUser = async () => {
     try {
-      const headers = { Authorization: accessToken };
+      const headers = { Authorization: token };
       console.log("headers", headers);
 
       const response = await axios.post(

@@ -18,7 +18,7 @@ import { AiFillFileExcel } from "react-icons/ai";
 import { Flex } from "../../styles/flex";
 import Link from "next/link";
 export const CommitsHistory = () => {
-  const { accessToken } = useSelector((state) => state.auth);
+  const { token } = useSelector((state) => state.auth);
 
   var url = `${CONSTANTS.API_URL_PROD}/evaluation/list-commits`;
   const [commits, setCommits] = useState([]);
@@ -26,7 +26,7 @@ export const CommitsHistory = () => {
   useEffect(() => {
     const fetchCommits = async () => {
       try {
-        const headers = { Authorization: accessToken };
+        const headers = { Authorization: token };
         const response = await axios.post(url, {
           headers,
         });

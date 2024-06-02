@@ -20,7 +20,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/router";
 
 export const OrgProjectDetails = () => {
-  const { accessToken } = useSelector((state) => state.auth);
+  const { token } = useSelector((state) => state.auth);
 
   var url = `${CONSTANTS.API_URL_PROD}/evaluation/list-org-projects/:id`;
   const [projectDetails, setProjectDetails] = useState([]);
@@ -28,7 +28,7 @@ export const OrgProjectDetails = () => {
   useEffect(() => {
     const fetchprojectDetails = async () => {
       try {
-        const headers = { Authorization: accessToken };
+        const headers = { Authorization: token };
         const response = await axios.get(url, {
           headers,
         });

@@ -15,7 +15,7 @@ import axios from "axios";
 import { Flex } from "../../styles/flex";
 
 export const PullRequests = () => {
-  const { accessToken } = useSelector((state) => state.auth);
+  const { token } = useSelector((state) => state.auth);
 
   var url = `${CONSTANTS.API_URL_PROD}/evaluation/list-pull-requests`;
   const [pullRequests, setPullRequests] = useState([]);
@@ -23,7 +23,7 @@ export const PullRequests = () => {
   useEffect(() => {
     const fetchPullRequests = async () => {
       try {
-        const headers = { Authorization: accessToken };
+        const headers = { Authorization: token };
         const response = await axios.post(url, {
           headers,
         });

@@ -1,6 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Modal, Button, Input, Text, Grid, Progress, Dropdown } from "@nextui-org/react";
+import {
+  Modal,
+  Button,
+  Input,
+  Text,
+  Grid,
+  Progress,
+  Dropdown,
+} from "@nextui-org/react";
 import { CONSTANTS } from "../../../../../constants/index.js";
 import { useRouter } from "next/router";
 export const GenerateWebQuizs = () => {
@@ -13,7 +21,24 @@ export const GenerateWebQuizs = () => {
   const [quizType, setQuizType] = useState("");
   const [quizContent, setQuizContent] = useState("");
   const [techSkills, setTechSkills] = useState("");
+  const [selectedUser, setSelectedUser] = useState(""); // Add state to store selected user
+  const [userOptions, setUserOptions] = useState([]); // Add state to store users for dropdown
+  useEffect(() => {
+    // Fetch users by name
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get(
+          `${CONSTANTS.API_URL_PROD}/admin/users-accounts`
+        );
+        console.log(response.data);
+        setUserOptions(response.data.users); // Assuming response.data.users is an array of user objects
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
 
+    fetchUsers();
+  }, []); // Run only once when component mounts
   const toggleAdvancedOptions = () => {
     setShowAdvancedOptions(!showAdvancedOptions);
   };
@@ -22,7 +47,7 @@ export const GenerateWebQuizs = () => {
   const levelOptions = [
     { value: "beginner", label: "Beginner" },
     { value: "intermediate", label: "Intermediate" },
-    { value: "advanced", label: "Advanced" },
+    { value: "expert", label: "Expert" },
   ];
 
   const programmingLanguageOptions = [
@@ -49,7 +74,7 @@ export const GenerateWebQuizs = () => {
     { value: "Backend", label: "Backend Development" },
     { value: "Fullstack", label: "Fullstack Development" },
     { value: "Database", label: "Database Management" },
-    { value: "Decurity", label: "Security Practices" },
+    { value: "Security", label: "Security Practices" },
     { value: "Other", label: "Other" },
   ];
   const quizContentOptions = [
@@ -72,17 +97,19 @@ export const GenerateWebQuizs = () => {
   const handleGenerate = async () => {
     setIsLoading(true);
     try {
-      const url = `${CONSTANTS.API_URL_PROD}/generation/generate-web-quiz/${level}`;
+      let url = `${CONSTANTS.API_URL_PROD}/generation/generate-web-quiz/${level}`;
+      const userId = selectedUser ? selectedUser._id : null;
 
+      if (selectedUser) {
+        url += `?userId=${userId}`;
+      }
       const response = await axios.post(url, {
         subject,
+        quizType,
       });
 
       setIsLoading(false);
-      setTask(response.data.Task);
-      setLevel("");
-      setSubject("");
-      router.push("/generative-ai/generated-tasks");
+      router.push("/generative-ai/world/web-development/generated/quizzes");
     } catch (err) {
       console.error(err);
       setIsLoading(false);
@@ -193,7 +220,44 @@ export const GenerateWebQuizs = () => {
             <>
               <br></br>
               <br></br>
-
+              <br></br>
+              <Grid.Container css={{ alignItems: "center" }}>
+                <Text b>Selected User:</Text>
+                <Dropdown>
+                  <Dropdown.Button
+                    flat
+                    color="warning"
+                    css={{ marginLeft: "5px" }}
+                  >
+                    {selectedUser ? selectedUser.name : "Select User"}
+                  </Dropdown.Button>
+                  <Dropdown.Menu
+                    aria-label="Select User"
+                    color="warning"
+                    disallowEmptySelection
+                    selectionMode="single"
+                    selectedKeys={
+                      selectedUser ? new Set([selectedUser._id]) : new Set()
+                    }
+                    onSelectionChange={(selected) =>
+                      setSelectedUser(
+                        userOptions.find(
+                          (user) => user._id === selected.values().next().value
+                        )
+                      )
+                    }
+                  >
+                    {userOptions.map((user) => (
+                      <Dropdown.Item key={user._id}>
+                        <Text span size={"$sm"}>
+                          {user.name}
+                        </Text>
+                      </Dropdown.Item>
+                    ))}
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Grid.Container>
+              <br></br>
               <Grid css={{ alignItems: "center" }}>
                 <Grid>
                   <Text b>Programming Language</Text>

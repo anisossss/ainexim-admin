@@ -2,21 +2,23 @@ import React, { useState, useEffect } from "react";
 import { CONSTANTS } from "../../../../../constants/index.js";
 import axios from "axios";
 import { Grid, Text } from "@nextui-org/react";
-import WebTaskCard from "./web-task-card.js";
+import WebMeetingCard from "./web-meeting-card.js";
 
-export const TableWebTasks = () => {
-  const [webTasks, setWebTasks] = useState([]);
+export const TableWebMeetings = () => {
+  const [webMeetings, setWebMeetings] = useState([]);
+
   useEffect(() => {
-    const fetchTasks = async () => {
+    const fetchMeetings = async () => {
       try {
-        var url = `${CONSTANTS.API_URL_PROD}/generation/get-web-tasks`;
+        var url = `${CONSTANTS.API_URL_PROD}/generation/get-web-meetings`;
         const response = await axios.get(url);
-        setWebTasks(response.data.tasks);
+        console.log("data", response.data.webMeetings);
+        setWebMeetings(response.data.webMeetings);
       } catch (error) {
         console.error("Error fetching requests", error);
       }
     };
-    fetchTasks();
+    fetchMeetings();
   }, []);
 
   return (
@@ -27,14 +29,14 @@ export const TableWebTasks = () => {
     >
       <Grid>
         <Text b size={"$2xl"}>
-          Generated Web Development Tasks (WORLD)
+          Generated Web Development Meetings (WORLD)
         </Text>
       </Grid>
       <br></br>
       <Grid.Container gap={2} css={{ height: "auto" }}>
-        {webTasks.map((webTask) => (
-          <Grid md={12} key={webTask._id}>
-            <WebTaskCard webTask={webTask} />
+        {webMeetings.map((webMeeting) => (
+          <Grid md={12} key={webMeeting._id}>
+            <WebMeetingCard webMeeting={webMeeting} />
           </Grid>
         ))}
       </Grid.Container>

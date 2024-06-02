@@ -17,12 +17,12 @@ import { useSelector } from "react-redux";
 export const Requests = () => {
   var url = `${CONSTANTS.API_URL_PROD}/admin/get-requests`;
   const [user, setUser] = useState("");
-  const { accessToken } = useSelector((state) => state.auth);
+  const { token } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const headers = { Authorization: accessToken };
+        const headers = { Authorization: token };
         const { data } = await axios.get(url, {
           headers,
         });
@@ -59,7 +59,6 @@ export const Requests = () => {
           <ReportsIcon />
           <CrumbLink href="#">Requests</CrumbLink>
         </Crumb>
-       
       </Breadcrumbs>
 
       <Text h3>All Support Requests</Text>

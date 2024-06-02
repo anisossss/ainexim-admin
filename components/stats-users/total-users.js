@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import React, { useState, useEffect } from "react";
 
 export const TotalUsers = () => {
-  const { accessToken } = useSelector((state) => state.auth);
+  const { token } = useSelector((state) => state.auth);
 
   var url = `${CONSTANTS.API_URL_PROD}/admin/statistics`;
   const [totalUsers, setTotalUsers] = useState("");
@@ -16,7 +16,7 @@ export const TotalUsers = () => {
   useEffect(() => {
     const fetchNbrUsers = async () => {
       try {
-        const headers = { Authorization: accessToken };
+        const headers = { Authorization: token };
         const { data } = await axios.get(url, {
           headers,
         });

@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import React, { useState, useEffect } from "react";
 
 export const Orders = () => {
-  const { accessToken } = useSelector((state) => state.auth);
+  const { token } = useSelector((state) => state.auth);
 
   var url = `${CONSTANTS.API_URL_PROD}/admin/get-orders`;
   const [orders, setOrders] = useState([]);
@@ -21,7 +21,7 @@ export const Orders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const headers = { Authorization: accessToken };
+        const headers = { Authorization: token };
         const data = await axios.get(url, {
           headers,
         });
@@ -59,7 +59,6 @@ export const Orders = () => {
           <PaymentsIcon />
           <CrumbLink href="#">Orders</CrumbLink>
         </Crumb>
-      
       </Breadcrumbs>
 
       <Text h3>All Orders</Text>

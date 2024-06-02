@@ -1,6 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Modal, Button, Input, Text, Grid, Progress , Dropdown} from "@nextui-org/react";
+import {
+  Modal,
+  Button,
+  Input,
+  Text,
+  Grid,
+  Progress,
+  Dropdown,
+} from "@nextui-org/react";
 import { CONSTANTS } from "../../../../constants/index.js";
 import { useRouter } from "next/router";
 export const GenerateTests = () => {
@@ -13,7 +21,24 @@ export const GenerateTests = () => {
   const [testType, setTestType] = useState("");
   const [testContent, setTestContent] = useState("");
   const [techSkills, setTechSkills] = useState("");
+  const [selectedUser, setSelectedUser] = useState("");
+  const [userOptions, setUserOptions] = useState([]);
+  useEffect(() => {
+    // Fetch users by name
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get(
+          `${CONSTANTS.API_URL_PROD}/admin/users-accounts`
+        );
+        console.log(response.data);
+        setUserOptions(response.data.users); // Assuming response.data.users is an array of user objects
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
 
+    fetchUsers();
+  }, []); // Run only once when component mounts
   const toggleAdvancedOptions = () => {
     setShowAdvancedOptions(!showAdvancedOptions);
   };
@@ -22,7 +47,7 @@ export const GenerateTests = () => {
   const levelOptions = [
     { value: "beginner", label: "Beginner" },
     { value: "intermediate", label: "Intermediate" },
-    { value: "advanced", label: "Advanced" },
+    { value: "expert", label: "Expert" },
   ];
 
   const programmingLanguageOptions = [
@@ -49,7 +74,7 @@ export const GenerateTests = () => {
     { value: "Backend", label: "Backend Development" },
     { value: "Fullstack", label: "Fullstack Development" },
     { value: "Database", label: "Database Management" },
-    { value: "Decurity", label: "Security Practices" },
+    { value: "Security", label: "Security Practices" },
     { value: "Other", label: "Other" },
   ];
   const testContentOptions = [
@@ -58,10 +83,7 @@ export const GenerateTests = () => {
     { value: "Design_patterns", label: "Design Patterns" },
     { value: "Other", label: "Other" },
   ];
-  const testTypeOptions = [
-    { value: "Single_choice", label: "Single Choice" },
-    { value: "Multiple_choice", label: "Multiple Choice" },
-  ];
+
   const handleSelectionChange = (selectedValue, setFunction) => {
     if (selectedValue === "Other") {
       setFunction("Other");
@@ -72,14 +94,19 @@ export const GenerateTests = () => {
   const handleGenerate = async () => {
     setIsLoading(true);
     try {
-      const url = `${CONSTANTS.API_URL_PROD}/generation/generate-software-test/${level}`;
+      let url = `${CONSTANTS.API_URL_PROD}/generation/generate-software-test/${level}`;
+      const userId = selectedUser ? selectedUser._id : null;
+
+      // Add selected user's ID to the query
+      if (selectedUser) {
+        url += `?userId=${userId}`;
+      }
+
       const response = await axios.post(url, {
         subject,
       });
 
       setIsLoading(false);
-      setLevel("");
-      setSubject("");
       router.push("/generative-ai/preworld/generated/tests");
     } catch (err) {
       console.error(err);
@@ -92,7 +119,7 @@ export const GenerateTests = () => {
       <Grid css={{ padding: "5%" }}>
         <Grid>
           <Text b size={"$2xl"}>
-            Generate Software Development Tests - (5 per Request)
+            Generate Software Development Tests - (2 per Request)
           </Text>
         </Grid>
         <br></br>
@@ -102,9 +129,8 @@ export const GenerateTests = () => {
             <Grid>
               <Text b>Level</Text>
             </Grid>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <Dropdown>
-              <Dropdown.Button flat color="warning" css={{ tt: "capitalize" }}>
+              <Dropdown.Button flat color="warning" css={{ marginLeft: "5px" }}>
                 {level
                   ? level.replaceAll("_", " ")
                   : "Select Level of difficulty"}
@@ -128,7 +154,6 @@ export const GenerateTests = () => {
             </Dropdown>
           </Grid.Container>
           <br></br>
-   
 
           <Grid css={{ alignItems: "center" }}>
             <Grid>
@@ -147,13 +172,18 @@ export const GenerateTests = () => {
           <br></br>
 
           <br></br>
-          <Grid.Container>
-            <Button flat color="secondary" onClick={toggleAdvancedOptions}>
+          <Grid.Container alignItems="center">
+            <Button
+              flat
+              color="secondary"
+              onClick={toggleAdvancedOptions}
+              css={{ marginRight: "1em" }}
+            >
               {showAdvancedOptions
                 ? "Hide Advanced Options"
                 : "Show Advanced Options"}
             </Button>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
             <Grid>
               <Button flat color="primary" onClick={handleGenerate}>
                 Generate
@@ -164,15 +194,57 @@ export const GenerateTests = () => {
             <>
               <br></br>
               <br></br>
-
-              <Grid css={{ alignItems: "center" }}>
+              <br></br>
+              <Grid.Container css={{ alignItems: "center" }}>
+                {" "}
+                <Text b>Selected User:</Text>
+                <Dropdown>
+                  <Dropdown.Button
+                    flat
+                    color="warning"
+                    css={{ marginLeft: "5px" }}
+                  >
+                    {selectedUser ? selectedUser.name : "Select User"}
+                  </Dropdown.Button>
+                  <Dropdown.Menu
+                    aria-label="Select User"
+                    color="warning"
+                    disallowEmptySelection
+                    selectionMode="single"
+                    selectedKeys={
+                      selectedUser ? new Set([selectedUser._id]) : new Set()
+                    }
+                    onSelectionChange={(selected) =>
+                      setSelectedUser(
+                        userOptions.find(
+                          (user) => user._id === selected.values().next().value
+                        )
+                      )
+                    }
+                  >
+                    {userOptions.map((user) => (
+                      <Dropdown.Item key={user._id}>
+                        <Text span size={"$sm"}>
+                          {user.name}
+                        </Text>
+                      </Dropdown.Item>
+                    ))}
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Grid.Container>
+              <br></br>
+              <Grid.Container css={{ alignItems: "center" }}>
                 <Grid>
                   <Text b>Programming Language</Text>
                 </Grid>
                 <br></br>
                 <Grid>
                   <Dropdown>
-                    <Dropdown.Button flat color="warning">
+                    <Dropdown.Button
+                      flat
+                      color="warning"
+                      css={{ marginLeft: "5px" }}
+                    >
                       {programmingLanguage
                         ? programmingLanguage
                         : "Select Programming Language"}
@@ -213,16 +285,20 @@ export const GenerateTests = () => {
                     </>
                   )}
                 </Grid>
-              </Grid>
+              </Grid.Container>
               <br></br>
-              <Grid>
+              <Grid.Container alignItems="center">
                 <Grid>
                   <Text b>Framework Library</Text>
                 </Grid>
                 <br></br>
                 <Grid>
                   <Dropdown>
-                    <Dropdown.Button flat color="warning">
+                    <Dropdown.Button
+                      flat
+                      color="warning"
+                      css={{ marginLeft: "5px" }}
+                    >
                       {frameworkLibrary
                         ? frameworkLibrary
                         : "Select Framework Library"}
@@ -261,92 +337,111 @@ export const GenerateTests = () => {
                     )}
                   </>
                 </Grid>
-              </Grid>
+              </Grid.Container>
               <br></br>
-              <Grid>
-                <Text b>Tech Skills to Evaluate</Text>
-              </Grid>
+              <Grid.Container alignItems="center">
+                <Grid>
+                  <Text b>Tech Skills to Evaluate</Text>
+                </Grid>
+                <br></br>
+                <Grid>
+                  <Dropdown>
+                    <Dropdown.Button
+                      flat
+                      color="warning"
+                      css={{ marginLeft: "25px" }}
+                    >
+                      {techSkills
+                        ? techSkills
+                        : "Select Tech Skills to Evaluate"}
+                    </Dropdown.Button>
+                    <Dropdown.Menu
+                      aria-label="Select Tech Skills"
+                      color="warning"
+                      disallowEmptySelection
+                      selectionMode="single"
+                      selectedKeys={
+                        techSkills ? new Set([techSkills]) : new Set()
+                      }
+                      onSelectionChange={(selected) =>
+                        setTechSkills(selected.values().next().value)
+                      }
+                    >
+                      {techSkillsOptions.map((option) => (
+                        <Dropdown.Item key={option.value}>
+                          <Text span size={"$sm"}>
+                            {option.label}
+                          </Text>
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown.Menu>
+                  </Dropdown>
+                  {techSkills === "Other" && (
+                    <>
+                      <br></br>
+                      <Input placeholder="Enter Tech Skill" fullWidth />
+                      <br></br>
+                    </>
+                  )}
+                </Grid>
+                <br></br>
+              </Grid.Container>
               <br></br>
-              <Grid>
-                <Dropdown>
-                  <Dropdown.Button flat color="warning">
-                    {techSkills ? techSkills : "Select Tech Skills to Evaluate"}
-                  </Dropdown.Button>
-                  <Dropdown.Menu
-                    aria-label="Select Tech Skills"
-                    color="warning"
-                    disallowEmptySelection
-                    selectionMode="single"
-                    selectedKeys={
-                      techSkills ? new Set([techSkills]) : new Set()
-                    }
-                    onSelectionChange={(selected) =>
-                      setTechSkills(selected.values().next().value)
-                    }
-                  >
-                    {techSkillsOptions.map((option) => (
-                      <Dropdown.Item key={option.value}>
-                        <Text span size={"$sm"}>
+              <Grid.Container alignItems="center">
+                <Grid>
+                  <Text b>Type of Test Content</Text>
+                </Grid>
+                <br></br>
+                <Grid>
+                  <Dropdown>
+                    <Dropdown.Button
+                      flat
+                      color="warning"
+                      css={{ marginLeft: "5px" }}
+                    >
+                      {testContent ? testContent : "Select Test Content"}
+                    </Dropdown.Button>
+                    <Dropdown.Menu
+                      aria-label="Select Test Content"
+                      color="warning"
+                      disallowEmptySelection
+                      selectionMode="single"
+                      selectedKeys={
+                        testContent ? new Set([testContent]) : new Set()
+                      }
+                      onSelectionChange={(selected) =>
+                        setTestContent(selected.values().next().value)
+                      }
+                    >
+                      {testContentOptions.map((option) => (
+                        <Dropdown.Item key={option.value}>
                           {option.label}
-                        </Text>
-                      </Dropdown.Item>
-                    ))}
-                  </Dropdown.Menu>
-                </Dropdown>
-                {techSkills === "Other" && (
-                  <>
-                    <br></br>
-                    <Input placeholder="Enter Tech Skill" fullWidth />
-                    <br></br>
-                  </>
-                )}
-              </Grid>
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown.Menu>
+                  </Dropdown>
+                  {testContent === "Other" && (
+                    <>
+                      <br></br>
+                      <Input placeholder="Enter Test Content" fullWidth />
+                      <br></br>
+                    </>
+                  )}
+                </Grid>
+              </Grid.Container>
               <br></br>
-              <Grid>
-                <Text b>Type of Test Content</Text>
-              </Grid>
-              <br></br>
-              <Grid>
-                <Dropdown>
-                  <Dropdown.Button flat color="warning">
-                    {testContent ? testContent : "Select Test Content"}
-                  </Dropdown.Button>
-                  <Dropdown.Menu
-                    aria-label="Select Test Content"
-                    color="warning"
-                    disallowEmptySelection
-                    selectionMode="single"
-                    selectedKeys={
-                      testContent ? new Set([testContent]) : new Set()
-                    }
-                    onSelectionChange={(selected) =>
-                      setTestContent(selected.values().next().value)
-                    }
-                  >
-                    {testContentOptions.map((option) => (
-                      <Dropdown.Item key={option.value}>
-                        {option.label}
-                      </Dropdown.Item>
-                    ))}
-                  </Dropdown.Menu>
-                </Dropdown>
-                {testContent === "Other" && (
-                  <>
-                    <br></br>
-                    <Input placeholder="Enter Test Content" fullWidth />
-                    <br></br>
-                  </>
-                )}
-              </Grid>
-              <br></br>
-              <Grid>
+              <Grid.Container alignItems="center">
                 <Grid>
                   <Text b>Time Allocation </Text>
                 </Grid>
                 <br></br>
                 <Grid>
                   <Dropdown>
-                    <Dropdown.Button flat color="warning">
+                    <Dropdown.Button
+                      flat
+                      color="warning"
+                      css={{ marginLeft: "5px" }}
+                    >
                       {timeAllocation
                         ? timeAllocation
                         : "Select Time Allocation"}
@@ -370,13 +465,16 @@ export const GenerateTests = () => {
                       ))}
                     </Dropdown.Menu>
                   </Dropdown>
-                  <br></br>
-                  {timeAllocation === "Other" && (
-                    <Input placeholder="Enter Time Allocation" fullWidth />
-                  )}
-                  <br></br>
                 </Grid>
-              </Grid>
+
+                {timeAllocation === "Other" && (
+                  <Input
+                    placeholder="Enter Time Allocation"
+                    fullWidth
+                    css={{ marginTop: "1em" }}
+                  />
+                )}
+              </Grid.Container>
             </>
           )}
           <br></br>

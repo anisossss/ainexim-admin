@@ -154,9 +154,27 @@ export const SidebarWrapper = () => {
                 icon={<ReportsIcon />}
                 href="/generative-ai/world/web-development/generated/quizzes"
               />
+              <SidebarItem
+                isActive={
+                  router.pathname ===
+                  "/generative-ai/world/web-development/generate-meetings"
+                }
+                title="Generate Web Meetings"
+                icon={<IoCreate color={"#697177"} size={24} />}
+                href="/generative-ai/world/web-development/generate-meetings"
+              />
+              <SidebarItem
+                isActive={
+                  router.pathname ===
+                  "/generative-ai/world/web-development/generated/meetings"
+                }
+                title="Generated Web Meetings"
+                icon={<ReportsIcon />}
+                href="/generative-ai/world/web-development/generated/meetings"
+              />
               <hr></hr>
               <Text span size="$md" color="gray">
-                Github Actions
+                GITHUB ACTIONS
               </Text>
               <SidebarItem
                 isActive={router.pathname === "/github/organization-projects"}
@@ -198,7 +216,7 @@ export const SidebarWrapper = () => {
               />
               <hr></hr>
               <Text span size="$md" color="gray">
-                Users Monitoring
+                USERS MONITORING
               </Text>
               <SidebarItem
                 isActive={router.pathname === "/monitoring/online-users"}

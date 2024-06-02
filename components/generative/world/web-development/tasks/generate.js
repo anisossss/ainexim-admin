@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
   Modal,
@@ -21,7 +21,24 @@ export const GenerateWebTasks = () => {
   const [taskType, setTaskType] = useState("");
   const [taskContent, setTaskContent] = useState("");
   const [techSkills, setTechSkills] = useState("");
+  const [selectedUser, setSelectedUser] = useState(""); // Add state to store selected user
+  const [userOptions, setUserOptions] = useState([]); // Add state to store users for dropdown
+  useEffect(() => {
+    // Fetch users by name
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get(
+          `${CONSTANTS.API_URL_PROD}/admin/users-accounts`
+        );
+        console.log(response.data);
+        setUserOptions(response.data.users); // Assuming response.data.users is an array of user objects
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
 
+    fetchUsers();
+  }, []); // Run only once when component mounts
   const toggleAdvancedOptions = () => {
     setShowAdvancedOptions(!showAdvancedOptions);
   };
@@ -30,7 +47,7 @@ export const GenerateWebTasks = () => {
   const levelOptions = [
     { value: "beginner", label: "Beginner" },
     { value: "intermediate", label: "Intermediate" },
-    { value: "advanced", label: "Advanced" },
+    { value: "expert", label: "Expert" },
   ];
 
   const programmingLanguageOptions = [
@@ -69,8 +86,6 @@ export const GenerateWebTasks = () => {
   const taskTypeOptions = [
     { value: "Development", label: "Development" },
     { value: "Definitions", label: "Definitions" },
-    { value: "Quiz", label: "Quiz" },
-    { value: "Meeting", label: "Meeting" },
     { value: "Report", label: "Report" },
   ];
   const handleSelectionChange = (selectedValue, setFunction) => {
@@ -84,15 +99,18 @@ export const GenerateWebTasks = () => {
     setIsLoading(true);
     try {
       const url = `${CONSTANTS.API_URL_PROD}/generation/generate-web-task/${level}`;
+      const userId = selectedUser ? selectedUser._id : null;
 
+      if (selectedUser) {
+        url += `?userId=${userId}`;
+      }
       const response = await axios.post(url, {
         subject,
+        taskType,
       });
 
       setIsLoading(false);
-      setLevel("");
-      setSubject("");
-      router.push("/generative-ai/generated-tasks");
+      router.push("/generative-ai/world/web-development/generated/tasks");
     } catch (err) {
       console.error(err);
       setIsLoading(false);
@@ -203,7 +221,44 @@ export const GenerateWebTasks = () => {
             <>
               <br></br>
               <br></br>
-
+              <Grid.Container css={{ alignItems: "center" }}>
+                {" "}
+                <Text b>Selected User:</Text>
+                <Dropdown>
+                  <Dropdown.Button
+                    flat
+                    color="warning"
+                    css={{ marginLeft: "5px" }}
+                  >
+                    {selectedUser ? selectedUser.name : "Select User"}
+                  </Dropdown.Button>
+                  <Dropdown.Menu
+                    aria-label="Select User"
+                    color="warning"
+                    disallowEmptySelection
+                    selectionMode="single"
+                    selectedKeys={
+                      selectedUser ? new Set([selectedUser._id]) : new Set()
+                    }
+                    onSelectionChange={(selected) =>
+                      setSelectedUser(
+                        userOptions.find(
+                          (user) => user._id === selected.values().next().value
+                        )
+                      )
+                    }
+                  >
+                    {userOptions.map((user) => (
+                      <Dropdown.Item key={user._id}>
+                        <Text span size={"$sm"}>
+                          {user.name}
+                        </Text>
+                      </Dropdown.Item>
+                    ))}
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Grid.Container>
+              <br></br>
               <Grid css={{ alignItems: "center" }}>
                 <Grid>
                   <Text b>Programming Language</Text>

@@ -26,7 +26,7 @@ body {
 }
 
 *:focus {
-  outline: 0 !important;
+  outline: none !important;
 }
 .task_title {
   font-size: 1.2em;

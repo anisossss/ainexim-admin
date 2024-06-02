@@ -13,12 +13,12 @@ import React, { useState, useEffect } from "react";
 export const Waitlist = () => {
   var url = `${CONSTANTS.API_URL_PROD}/admin/users-accounts`;
   const [user, setUser] = useState("");
-  const { accessToken } = useSelector((state) => state.auth);
+  const { token } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const headers = { Authorization: accessToken };
+        const headers = { Authorization: token };
         const { data } = await axios.get(url, {
           headers,
         });

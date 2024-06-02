@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import React, { useState, useEffect } from "react";
 
 export const TotalTasks = () => {
-  const { accessToken } = useSelector((state) => state.auth);
+  const { token } = useSelector((state) => state.auth);
 
   var url = `${CONSTANTS.API_URL_PROD}/admin/statistics`;
   const [totalUsers, setTotalUsers] = useState("");
@@ -16,7 +16,7 @@ export const TotalTasks = () => {
   useEffect(() => {
     const fetchNbrUsers = async () => {
       try {
-        const headers = { Authorization: accessToken };
+        const headers = { Authorization: token };
         const { data } = await axios.get(url, {
           headers,
         });
@@ -39,7 +39,7 @@ export const TotalTasks = () => {
     >
       <Card.Body css={{ py: "$10" }}>
         <Flex css={{ gap: "$5" }}>
-        <PaymentsIcon />
+          <PaymentsIcon />
           <Flex direction={"column"}>
             <Text span>Total Tasks</Text>
           </Flex>
