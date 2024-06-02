@@ -25,7 +25,6 @@ export const GenerateWebMeeting = () => {
   const [userOptions, setUserOptions] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   useEffect(() => {
-    // Fetch users by name
     const fetchUsers = async () => {
       try {
         const response = await axios.get(

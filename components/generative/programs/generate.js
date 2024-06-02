@@ -9,7 +9,7 @@ import {
   Progress,
   Dropdown,
 } from "@nextui-org/react";
-import { CONSTANTS } from "../../../../../constants/index.js";
+import { CONSTANTS } from "../../../constants/index.js";
 import { useRouter } from "next/router";
 export const GeneratePrograms = () => {
   const [level, setLevel] = useState("");
