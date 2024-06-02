@@ -11,7 +11,7 @@ import {
 } from "@nextui-org/react";
 import { CONSTANTS } from "../../../../../constants/index.js";
 import { useRouter } from "next/router";
-export const GenerateWebMeetings = () => {
+export const GenerateWebMeeting = () => {
   const [level, setLevel] = useState("");
   const [subject, setSubject] = useState("");
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
