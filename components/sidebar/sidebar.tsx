@@ -78,6 +78,40 @@ export const SidebarWrapper = () => {
                 href="/requests"
               />
               <hr></hr>
+              <SidebarItem
+                isActive={router.pathname === "/create-teams"}
+                title="Create Teams"
+                icon={<IoCreate color={"#697177"} size={25} />}
+                href="/create-teams"
+              />
+              <SidebarItem
+                isActive={
+                  router.pathname === "/generative-ai/create-certifications"
+                }
+                title="Create Certifications"
+                icon={<IoCreate color={"#697177"} size={25} />}
+                href="/generative-ai/create-certifications"
+              />
+              <SidebarItem
+                isActive={router.pathname === "/generative-ai/create-programs"}
+                title="Create Programs"
+                icon={<IoCreate color={"#697177"} size={25} />}
+                href="/generative-ai/create-programs"
+              />
+              <SidebarItem
+                isActive={router.pathname === "/generative-ai/create-missions"}
+                title="Create Missions"
+                icon={<IoCreate color={"#697177"} size={25} />}
+                href="/generative-ai/create-missions"
+              />
+              <SidebarItem
+                isActive={router.pathname === "/generative-ai/create-badges"}
+                title="Create Badges"
+                icon={<IoCreate color={"#697177"} size={25} />}
+                href="/generative-ai/create-badges"
+              />
+              <hr></hr>
+
               <Text span size="$md" color="gray">
                 PREWORLD
               </Text>
@@ -88,7 +122,7 @@ export const SidebarWrapper = () => {
                 title="Generate Tests"
                 icon={<IoCreate color={"#697177"} size={25} />}
                 href="/generative-ai/preworld/generate-tests"
-              />{" "}
+              />
               <SidebarItem
                 isActive={
                   router.pathname === "/generative-ai/preworld/generated/tests"
