@@ -9,36 +9,42 @@ import {
   Progress,
   Dropdown,
 } from "@nextui-org/react";
-import { CONSTANTS } from "../../../../../constants/index.js";
+import { CONSTANTS } from "../../../../../../constants/index.js";
+import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
-export const GenerateWebQuizs = () => {
+export const GenerateWebMeeting = () => {
   const [level, setLevel] = useState("");
   const [subject, setSubject] = useState("");
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
   const [programmingLanguage, setProgrammingLanguage] = useState("");
   const [frameworkLibrary, setFrameworkLibrary] = useState("");
   const [timeAllocation, setTimeAllocation] = useState("");
-  const [quizType, setQuizType] = useState("");
-  const [quizContent, setQuizContent] = useState("");
+  const [meetingType, setMeetingType] = useState("");
+  const [meetingContent, setMeetingContent] = useState("");
   const [techSkills, setTechSkills] = useState("");
-  const [selectedUser, setSelectedUser] = useState(""); // Add state to store selected user
-  const [userOptions, setUserOptions] = useState([]); // Add state to store users for dropdown
+  const [selectedUsers, setSelectedUsers] = useState(new Set());
+  const [userOptions, setUserOptions] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const { accessToken } = useSelector((state) => state.auth);
+
   useEffect(() => {
-    // Fetch users by name
     const fetchUsers = async () => {
+      const headers = { Authorization: accessToken };
       try {
         const response = await axios.get(
-          `${CONSTANTS.API_URL_PROD}/admin/users-accounts`
+          `${CONSTANTS.API_URL_PROD}/admin/users-accounts`,
+          { headers }
         );
         console.log(response.data);
-        setUserOptions(response.data.users); // Assuming response.data.users is an array of user objects
+        setUserOptions(response.data.users);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
     };
 
     fetchUsers();
-  }, []); // Run only once when component mounts
+  }, []);
+
   const toggleAdvancedOptions = () => {
     setShowAdvancedOptions(!showAdvancedOptions);
   };
@@ -77,39 +83,52 @@ export const GenerateWebQuizs = () => {
     { value: "Security", label: "Security Practices" },
     { value: "Other", label: "Other" },
   ];
-  const quizContentOptions = [
+  const meetingContentOptions = [
     { value: "Syntax", label: "Syntax" },
-    { value: "Best_practices", label: "Best Practices" },
-    { value: "Design_patterns", label: "Design Patterns" },
+    { value: "Best Practices", label: "Best Practices" },
+    { value: "Design Patterns", label: "Design Patterns" },
     { value: "Other", label: "Other" },
   ];
-  const quizTypeOptions = [
-    { value: "Single_choice", label: "Single Choice" },
-    { value: "Multiple_choice", label: "Multiple Choice" },
+  const meetingTypeOptions = [
+    { value: "Sprint Planning", label: "Sprint Planning" },
+    { value: "Daily Scrum", label: "Daily Scrum" },
+    { value: "Code Review", label: "Code Review" },
+    {
+      value: "Technical Knowledge Sharing",
+      label: "Technical Knowledge Sharing",
+    },
   ];
-  const handleSelectionChange = (selectedValue, setFunction) => {
-    if (selectedValue === "Other") {
-      setFunction("Other");
-    } else {
-      setFunction(selectedValue);
-    }
+  const handleSelectionChange = (selected) => {
+    if (selected.size > 2) return;
+
+    setSelectedUsers(selected);
   };
   const handleGenerate = async () => {
     setIsLoading(true);
     try {
-      let url = `${CONSTANTS.API_URL_PROD}/generation/generate-web-quiz/${level}`;
-      const userId = selectedUser ? selectedUser._id : null;
+      // Convert selectedUsers set to an array of user IDs
+      const userIds = Array.from(selectedUsers);
 
-      if (selectedUser) {
-        url += `?userId=${userId}`;
-      }
-      const response = await axios.post(url, {
-        subject,
-        quizType,
-      });
+      // Make a request to generate and store the meeting for each user
+      const response = await axios.post(
+        `${CONSTANTS.API_URL_PROD}/generation/generate-web-meeting/${level}`,
+        {
+          subject,
+          type: meetingType,
+        },
+        {
+          params: {
+            userIds: userIds, // Send the user IDs as an array in the query parameters
+          },
+        },
+        { headers }
+      );
+
+      // Handle the response if needed
+      console.log(response.data);
 
       setIsLoading(false);
-      router.push("/generative-ai/world/web-development/generated/quizzes");
+      router.push("/generative-ai/world/web-development/generated/meetings");
     } catch (err) {
       console.error(err);
       setIsLoading(false);
@@ -121,7 +140,7 @@ export const GenerateWebQuizs = () => {
       <Grid css={{ padding: "5%" }}>
         <Grid>
           <Text b size={"$2xl"}>
-            Generate Web Development Quizzes (WORLD)
+            Generate Web Development Meeting Task (1 meeting per request)
           </Text>
         </Grid>
         <br></br>
@@ -159,25 +178,25 @@ export const GenerateWebQuizs = () => {
           <br></br>
           <Grid.Container css={{ alignItems: "center" }}>
             <Grid>
-              <Text b>Type of Quiz</Text>
+              <Text b>Type of Meeting</Text>
             </Grid>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <Dropdown>
               <Dropdown.Button flat color="warning">
-                {quizType ? quizType : "Select Quiz Type"}
+                {meetingType ? meetingType : "Select Meeting Type"}
               </Dropdown.Button>
               <Dropdown.Menu
-                aria-label="Select Quiz Type"
+                aria-label="Select Meeting Type"
                 color="warning"
                 disallowEmptySelection
                 selectionMode="single"
-                selectedKeys={quizType ? new Set([quizType]) : new Set()}
+                selectedKeys={meetingType ? new Set([meetingType]) : new Set()}
                 onSelectionChange={(selected) =>
-                  setQuizType(selected.values().next().value)
+                  setMeetingType(selected.values().next().value)
                 }
               >
-                {quizTypeOptions.map((option) => (
-                  <Dropdown.Item key={option.value}>
+                {meetingTypeOptions.map((option) => (
+                  <Dropdown.Item key={option.value} css={{ height: "100%" }}>
                     {option.label}
                   </Dropdown.Item>
                 ))}
@@ -193,7 +212,7 @@ export const GenerateWebQuizs = () => {
             <br></br>
             <Grid>
               <Input
-                placeholder="Subject of the Quizzes"
+                placeholder="Subject of the Meeting"
                 width="100%"
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
@@ -220,39 +239,32 @@ export const GenerateWebQuizs = () => {
             <>
               <br></br>
               <br></br>
-              <br></br>
               <Grid.Container css={{ alignItems: "center" }}>
+                {" "}
                 <Text b>Selected User:</Text>
                 <Dropdown>
-                  <Dropdown.Button
-                    flat
-                    color="warning"
-                    css={{ marginLeft: "5px" }}
-                  >
-                    {selectedUser ? selectedUser.name : "Select User"}
+                  <Dropdown.Button flat color="warning">
+                    {selectedUsers.size === 0
+                      ? "Select Users"
+                      : Array.from(selectedUsers)
+                          .map(
+                            (userId) =>
+                              userOptions.find((user) => user._id === userId)
+                                .name
+                          )
+                          .join(", ")}
                   </Dropdown.Button>
                   <Dropdown.Menu
-                    aria-label="Select User"
+                    aria-label="Select Users"
+                    maxSelections={2}
                     color="warning"
                     disallowEmptySelection
-                    selectionMode="single"
-                    selectedKeys={
-                      selectedUser ? new Set([selectedUser._id]) : new Set()
-                    }
-                    onSelectionChange={(selected) =>
-                      setSelectedUser(
-                        userOptions.find(
-                          (user) => user._id === selected.values().next().value
-                        )
-                      )
-                    }
+                    selectionMode="multiple"
+                    selectedKeys={selectedUsers}
+                    onSelectionChange={handleSelectionChange} // Use the custom handler
                   >
                     {userOptions.map((user) => (
-                      <Dropdown.Item key={user._id}>
-                        <Text span size={"$sm"}>
-                          {user.name}
-                        </Text>
-                      </Dropdown.Item>
+                      <Dropdown.Item key={user._id}>{user.name}</Dropdown.Item>
                     ))}
                   </Dropdown.Menu>
                 </Dropdown>
@@ -396,37 +408,37 @@ export const GenerateWebQuizs = () => {
               </Grid>
               <br></br>
               <Grid>
-                <Text b>Type of Quiz Content</Text>
+                <Text b>Type of Meeting Content</Text>
               </Grid>
               <br></br>
               <Grid>
                 <Dropdown>
                   <Dropdown.Button flat color="warning">
-                    {quizContent ? quizContent : "Select Quiz Content"}
+                    {meetingContent ? meetingContent : "Select Meeting Content"}
                   </Dropdown.Button>
                   <Dropdown.Menu
-                    aria-label="Select Quiz Content"
+                    aria-label="Select Meeting Content"
                     color="warning"
                     disallowEmptySelection
                     selectionMode="single"
                     selectedKeys={
-                      quizContent ? new Set([quizContent]) : new Set()
+                      meetingContent ? new Set([meetingContent]) : new Set()
                     }
                     onSelectionChange={(selected) =>
-                      setQuizContent(selected.values().next().value)
+                      setMeetingContent(selected.values().next().value)
                     }
                   >
-                    {quizContentOptions.map((option) => (
+                    {meetingContentOptions.map((option) => (
                       <Dropdown.Item key={option.value}>
                         {option.label}
                       </Dropdown.Item>
                     ))}
                   </Dropdown.Menu>
                 </Dropdown>
-                {quizContent === "Other" && (
+                {meetingContent === "Other" && (
                   <>
                     <br></br>
-                    <Input placeholder="Enter Quiz Content" fullWidth />
+                    <Input placeholder="Enter Meeting Content" fullWidth />
                     <br></br>
                   </>
                 )}

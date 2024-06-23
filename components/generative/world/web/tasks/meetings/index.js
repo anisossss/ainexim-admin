@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { CONSTANTS } from "../../../constants/index.js";
+import { CONSTANTS } from "../../../../../../constants/index.js";
 import axios from "axios";
 import { Grid, Text } from "@nextui-org/react";
-import ProgramCard from "./program-card";
+import WebMeetingCard from "./web-meeting-card.js";
 import { useSelector } from "react-redux";
 
-export const TablePrograms = () => {
-  const [programs, setPrograms] = useState([]);
+export const TableWebMeetings = () => {
+  const [webMeetings, setWebMeetings] = useState([]);
   const { accessToken } = useSelector((state) => state.auth);
 
   useEffect(() => {
+    const headers = { Authorization: accessToken };
     const fetchMeetings = async () => {
-      const headers = { Authorization: accessToken };
       try {
         var url = `${CONSTANTS.API_URL_PROD}/generation/get-web-meetings`;
         const response = await axios.get(url, { headers });
-        console.log("data", response.data.programs);
-        setWebMeetings(response.data.programs);
+        console.log("data", response.data.webMeetings);
+        setWebMeetings(response.data.webMeetings);
       } catch (error) {
         console.error("Error fetching requests", error);
       }
@@ -33,9 +33,9 @@ export const TablePrograms = () => {
       </Grid>
       <br></br>
       <Grid.Container gap={2} css={{ height: "auto" }}>
-        {programs.map((program) => (
-          <Grid md={12} key={program._id}>
-            <ProgramCard program={program} />
+        {webMeetings.map((webMeeting) => (
+          <Grid md={12} key={webMeeting._id}>
+            <WebMeetingCard webMeeting={webMeeting} />
           </Grid>
         ))}
       </Grid.Container>

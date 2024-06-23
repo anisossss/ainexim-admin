@@ -1,5 +1,5 @@
 import React from "react";
-import { GenerateWebTasks } from "../../../../components/generative/world/web-development/tasks/generate.js";
+import { GenerateWebTasks } from "../../../../components/generative/world/web/tasks/dev/generate.js";
 const webtasks = () => {
   return <GenerateWebTasks />;
 };

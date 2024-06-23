@@ -5,30 +5,10 @@ import { HouseIcon } from "../icons/breadcrumb/house-icon";
 import { UsersIcon } from "../icons/breadcrumb/users-icon";
 import { Flex } from "../styles/flex";
 import { TableWaitlist } from "../table-waitlist";
-import { useSelector } from "react-redux";
-import { CONSTANTS } from "../../constants/index.js";
-import axios from "axios";
+
 import React, { useState, useEffect } from "react";
 
 export const Waitlist = () => {
-  var url = `${CONSTANTS.API_URL_PROD}/admin/users-accounts`;
-  const [user, setUser] = useState("");
-  const { token } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    const fetchRequests = async () => {
-      try {
-        const headers = { Authorization: token };
-        const { data } = await axios.get(url, {
-          headers,
-        });
-        setUser(data.user);
-      } catch (error) {
-        console.error("Error fetching list", error);
-      }
-    };
-    fetchRequests();
-  }, []);
   return (
     <Flex
       css={{

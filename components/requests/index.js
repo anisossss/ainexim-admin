@@ -1,4 +1,4 @@
-import { Button, Input, Text } from "@nextui-org/react";
+import { Button, Input, Text, Grid } from "@nextui-org/react";
 import Link from "next/link";
 import { Breadcrumbs, Crumb, CrumbLink } from "../breadcrumb/breadcrumb.styled";
 import { DotsIcon } from "../icons/accounts/dots-icon";
@@ -17,12 +17,12 @@ import { useSelector } from "react-redux";
 export const Requests = () => {
   var url = `${CONSTANTS.API_URL_PROD}/admin/get-requests`;
   const [user, setUser] = useState("");
-  const { token } = useSelector((state) => state.auth);
+  const { accessToken } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const headers = { Authorization: token };
+        const headers = { Authorization: accessToken };
         const { data } = await axios.get(url, {
           headers,
         });
@@ -34,36 +34,38 @@ export const Requests = () => {
     fetchRequests();
   }, []);
   return (
-    <Flex
-      css={{
-        mt: "$5",
-        px: "$6",
-        "@sm": {
-          mt: "$10",
-          px: "$16",
-        },
-      }}
-      justify={"center"}
-      direction={"column"}
-    >
-      <Breadcrumbs>
-        <Crumb>
-          <HouseIcon />
-          <Link href={"/"}>
-            <CrumbLink href="#">Home</CrumbLink>
-          </Link>
-          <Text>/</Text>
-        </Crumb>
+    <Grid className="innerContainer">
+      <Flex
+        css={{
+          mt: "$5",
+          px: "$6",
+          "@sm": {
+            mt: "$10",
+            px: "$16",
+          },
+        }}
+        justify={"center"}
+        direction={"column"}
+      >
+        <Breadcrumbs>
+          <Crumb>
+            <HouseIcon />
+            <Link href={"/"}>
+              <CrumbLink href="#">Home</CrumbLink>
+            </Link>
+            <Text>/</Text>
+          </Crumb>
 
-        <Crumb>
-          <ReportsIcon />
-          <CrumbLink href="#">Requests</CrumbLink>
-        </Crumb>
-      </Breadcrumbs>
+          <Crumb>
+            <ReportsIcon />
+            <CrumbLink href="#">Requests</CrumbLink>
+          </Crumb>
+        </Breadcrumbs>
 
-      <Text h3>All Support Requests</Text>
+        <Text h3>All Support Requests</Text>
 
-      <TableWrapper />
-    </Flex>
+        <TableWrapper />
+      </Flex>
+    </Grid>
   );
 };

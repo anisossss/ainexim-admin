@@ -10,6 +10,7 @@ import {
   Dropdown,
 } from "@nextui-org/react";
 import { CONSTANTS } from "../../../../../constants/index.js";
+import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 export const GenerateWebMeeting = () => {
   const [level, setLevel] = useState("");
@@ -24,11 +25,15 @@ export const GenerateWebMeeting = () => {
   const [selectedUsers, setSelectedUsers] = useState(new Set());
   const [userOptions, setUserOptions] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const { accessToken } = useSelector((state) => state.auth);
+
   useEffect(() => {
     const fetchUsers = async () => {
+      const headers = { Authorization: accessToken };
       try {
         const response = await axios.get(
-          `${CONSTANTS.API_URL_PROD}/admin/users-accounts`
+          `${CONSTANTS.API_URL_PROD}/admin/users-accounts`,
+          { headers }
         );
         console.log(response.data);
         setUserOptions(response.data.users);
@@ -115,7 +120,8 @@ export const GenerateWebMeeting = () => {
           params: {
             userIds: userIds, // Send the user IDs as an array in the query parameters
           },
-        }
+        },
+        { headers }
       );
 
       // Handle the response if needed

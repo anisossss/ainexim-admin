@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Text, Input, useInput, Grid, Button } from "@nextui-org/react";
-import { setToken } from "../../store/authSlice";
+import { setAccessToken, setRefreshToken } from "../../store/authSlice";
 import { useDispatch } from "react-redux";
 import { CONSTANTS } from "../../constants/index.js";
 import { useRouter } from "next/router";
@@ -47,11 +47,21 @@ export default function Login() {
         email: value,
         password: password,
       });
-      const token = res.data.data.token;
-      dispatch(setToken(token));
-      router.push("/dashboard");
+
+      console.log(res.data.access_token);
+      const accessToken = res.data.access_token;
+      const refreshToken = res.data.refresh_token;
+
+      if (accessToken && refreshToken) {
+        dispatch(setAccessToken(accessToken));
+        dispatch(setRefreshToken(refreshToken));
+        toast.success(res.data.message);
+        router.push("/dashboard");
+      } else {
+        console.error("You are not authorized !");
+        toast.error("Invalid server response");
+      }
     } catch (error) {
-      console.error("Error fetching requests", error);
       toast.error(error.response.data.message);
     } finally {
       setLoading(false);

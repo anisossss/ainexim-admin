@@ -3,6 +3,7 @@ body {
   padding: 0;
   margin: 0;
   font-family: "Montserrat", sans-serif;
+  height: 100%;
 }
 ::-webkit-scrollbar {
   width: 4px;
@@ -297,4 +298,11 @@ h4 {
 
 .text-right {
   text-align: right;
+}
+
+.innerContainer {
+  padding: 2%;
+  height: 100vh;
+  padding-bottom: 5%;
+  max-height: calc(100vh - 200px);
 }

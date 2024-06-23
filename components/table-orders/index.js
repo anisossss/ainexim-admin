@@ -10,7 +10,7 @@ import { AiFillFileExcel } from "react-icons/ai";
 import { Flex } from "../styles/flex";
 
 export const TableWrapper = () => {
-  const { token } = useSelector((state) => state.auth);
+  const { accessToken } = useSelector((state) => state.auth);
   const url = `${CONSTANTS.API_URL_PROD}/admin/get-orders`;
 
   const [orders, setOrders] = useState([]);
@@ -32,7 +32,7 @@ export const TableWrapper = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const headers = { Authorization: token };
+        const headers = { Authorization: accessToken };
         const { data } = await axios.get(url, {
           headers,
         });

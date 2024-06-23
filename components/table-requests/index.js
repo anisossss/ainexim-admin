@@ -22,7 +22,7 @@ import { useRouter } from "next/router";
 export const TableWrapper = () => {
   const [selectedRequest, setSelectedRequest] = useState(null);
   const router = useRouter();
-  const { token } = useSelector((state) => state.auth);
+  const { accessToken } = useSelector((state) => state.auth);
   const [reply, setReply] = useState("");
   const openReplyModal = (request) => {
     setSelectedRequest(request);
@@ -31,7 +31,7 @@ export const TableWrapper = () => {
   const replyHandler = async () => {
     const urlReply = `${CONSTANTS.API_URL_PROD}/admin/reply-requests/${selectedRequest._id}`;
     try {
-      const headers = { Authorization: token };
+      const headers = { Authorization: accessToken };
       const data = await axios.post(urlReply, { reply }, { headers });
       toast.success(data.data.message);
     } catch (error) {
@@ -62,7 +62,7 @@ export const TableWrapper = () => {
 
     const fetchRequests = async () => {
       try {
-        const headers = { Authorization: token };
+        const headers = { Authorization: accessToken };
         const data = await axios.get(url, { headers });
         setRequests(data.data.contacts);
       } catch (error) {

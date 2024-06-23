@@ -30,7 +30,9 @@
     "components/table-users/add-user.js",
     "components/table-users/index.js",
     "components/generative/courses/index.js",
-    "pages/all-users/index.js"
+    "pages/all-users/index.js",
+    "components/monitoring/online-users.jsx",
+    "components/monitoring/users-activity.jsx"
   ],
   "exclude": ["node_modules"]
 }

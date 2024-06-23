@@ -7,7 +7,7 @@ import axios from "axios";
 import { Flex } from "../../styles/flex";
 
 export const RepoEvents = () => {
-  const { token } = useSelector((state) => state.auth);
+  const { accessToken } = useSelector((state) => state.auth);
 
   var url = `${CONSTANTS.API_URL_PROD}/evaluation/list-repo-events`;
   const [repoEvents, setRepoEvents] = useState([]);
@@ -15,7 +15,7 @@ export const RepoEvents = () => {
   useEffect(() => {
     const fetchrepoEvents = async () => {
       try {
-        const headers = { Authorization: token };
+        const headers = { Authorization: accessToken };
         const response = await axios.post(url, {
           headers,
         });

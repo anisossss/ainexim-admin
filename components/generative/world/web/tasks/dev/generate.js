@@ -9,42 +9,42 @@ import {
   Progress,
   Dropdown,
 } from "@nextui-org/react";
-import { CONSTANTS } from "../../../../constants/index.js";
-import { useRouter } from "next/router";
+import { CONSTANTS } from "../../../../../../constants/index.js";
 import { useSelector } from "react-redux";
-
-export const GenerateQuiz = () => {
+import { useRouter } from "next/router";
+export const GenerateWebTasks = () => {
   const [level, setLevel] = useState("");
   const [subject, setSubject] = useState("");
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
   const [programmingLanguage, setProgrammingLanguage] = useState("");
   const [frameworkLibrary, setFrameworkLibrary] = useState("");
   const [timeAllocation, setTimeAllocation] = useState("");
-  const [quizType, setQuizType] = useState("");
-  const [quizContent, setQuizContent] = useState("");
+  const [taskType, setTaskType] = useState("");
+  const [taskContent, setTaskContent] = useState("");
   const [techSkills, setTechSkills] = useState("");
-  const [selectedUser, setSelectedUser] = useState("");
-  const [userOptions, setUserOptions] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(""); // Add state to store selected user
+  const [userOptions, setUserOptions] = useState([]); // Add state to store users for dropdown
   const { accessToken } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      const headers = { Authorization: accessToken };
+    const headers = { Authorization: accessToken };
 
+    // Fetch users by name
+    const fetchUsers = async () => {
       try {
         const response = await axios.get(
           `${CONSTANTS.API_URL_PROD}/admin/users-accounts`,
           { headers }
         );
         console.log(response.data);
-        setUserOptions(response.data.users);
+        setUserOptions(response.data.users); // Assuming response.data.users is an array of user objects
       } catch (error) {
         console.error("Error fetching users:", error);
       }
     };
 
     fetchUsers();
-  }, []);
+  }, []); // Run only once when component mounts
   const toggleAdvancedOptions = () => {
     setShowAdvancedOptions(!showAdvancedOptions);
   };
@@ -83,15 +83,16 @@ export const GenerateQuiz = () => {
     { value: "Security", label: "Security Practices" },
     { value: "Other", label: "Other" },
   ];
-  const quizContentOptions = [
+  const taskContentOptions = [
     { value: "Syntax", label: "Syntax" },
-    { value: "Best_practices", label: "Best Practices" },
-    { value: "Design_patterns", label: "Design Patterns" },
+    { value: "Best_Practices", label: "Best Practices" },
+    { value: "Design_Patterns", label: "Design Patterns" },
     { value: "Other", label: "Other" },
   ];
-  const quizTypeOptions = [
-    { value: "Single_choice", label: "Single Choice" },
-    { value: "Multiple_choice", label: "Multiple Choice" },
+  const taskTypeOptions = [
+    { value: "Development", label: "Development" },
+    { value: "Definitions", label: "Definitions" },
+    { value: "Report", label: "Report" },
   ];
   const handleSelectionChange = (selectedValue, setFunction) => {
     if (selectedValue === "Other") {
@@ -103,7 +104,9 @@ export const GenerateQuiz = () => {
   const handleGenerate = async () => {
     setIsLoading(true);
     try {
-      let url = `${CONSTANTS.API_URL_PROD}/generation/generate-software-quiz/${level}`;
+      const headers = { Authorization: accessToken };
+
+      const url = `${CONSTANTS.API_URL_PROD}/generation/generate-web-task/${level}`;
       const userId = selectedUser ? selectedUser._id : null;
 
       if (selectedUser) {
@@ -113,11 +116,13 @@ export const GenerateQuiz = () => {
         url,
         {
           subject,
+          taskType,
         },
         { headers }
       );
+
       setIsLoading(false);
-      router.push("/generative-ai/preworld/generated/quizzes");
+      router.push("/generative-ai/world/web-development/generated/tasks");
     } catch (err) {
       console.error(err);
       setIsLoading(false);
@@ -129,7 +134,7 @@ export const GenerateQuiz = () => {
       <Grid css={{ padding: "5%" }}>
         <Grid>
           <Text b size={"$2xl"}>
-            Generate Software Development Quizzes - (2 per Request)
+            Generate Web Development Tasks (WORLD)
           </Text>
         </Grid>
         <br></br>
@@ -167,24 +172,24 @@ export const GenerateQuiz = () => {
           <br></br>
           <Grid.Container css={{ alignItems: "center" }}>
             <Grid>
-              <Text b>Type of Quiz</Text>
+              <Text b>Type of Task</Text>
             </Grid>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <Dropdown>
               <Dropdown.Button flat color="warning">
-                {quizType ? quizType : "Select Quiz Type"}
+                {taskType ? taskType : "Select Task Type"}
               </Dropdown.Button>
               <Dropdown.Menu
-                aria-label="Select Quiz Type"
+                aria-label="Select Task Type"
                 color="warning"
                 disallowEmptySelection
                 selectionMode="single"
-                selectedKeys={quizType ? new Set([quizType]) : new Set()}
+                selectedKeys={taskType ? new Set([taskType]) : new Set()}
                 onSelectionChange={(selected) =>
-                  setQuizType(selected.values().next().value)
+                  setTaskType(selected.values().next().value)
                 }
               >
-                {quizTypeOptions.map((option) => (
+                {taskTypeOptions.map((option) => (
                   <Dropdown.Item key={option.value}>
                     {option.label}
                   </Dropdown.Item>
@@ -201,7 +206,7 @@ export const GenerateQuiz = () => {
             <br></br>
             <Grid>
               <Input
-                placeholder="Subject of the Quizzes"
+                placeholder="Subject of the Tasks"
                 width="100%"
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
@@ -404,37 +409,37 @@ export const GenerateQuiz = () => {
               </Grid>
               <br></br>
               <Grid>
-                <Text b>Type of Quiz Content</Text>
+                <Text b>Type of Task Content</Text>
               </Grid>
               <br></br>
               <Grid>
                 <Dropdown>
                   <Dropdown.Button flat color="warning">
-                    {quizContent ? quizContent : "Select Quiz Content"}
+                    {taskContent ? taskContent : "Select Task Content"}
                   </Dropdown.Button>
                   <Dropdown.Menu
-                    aria-label="Select Quiz Content"
+                    aria-label="Select Task Content"
                     color="warning"
                     disallowEmptySelection
                     selectionMode="single"
                     selectedKeys={
-                      quizContent ? new Set([quizContent]) : new Set()
+                      taskContent ? new Set([taskContent]) : new Set()
                     }
                     onSelectionChange={(selected) =>
-                      setQuizContent(selected.values().next().value)
+                      setTaskContent(selected.values().next().value)
                     }
                   >
-                    {quizContentOptions.map((option) => (
+                    {taskContentOptions.map((option) => (
                       <Dropdown.Item key={option.value}>
                         {option.label}
                       </Dropdown.Item>
                     ))}
                   </Dropdown.Menu>
                 </Dropdown>
-                {quizContent === "Other" && (
+                {taskContent === "Other" && (
                   <>
                     <br></br>
-                    <Input placeholder="Enter Quiz Content" fullWidth />
+                    <Input placeholder="Enter Task Content" fullWidth />
                     <br></br>
                   </>
                 )}
@@ -471,13 +476,11 @@ export const GenerateQuiz = () => {
                       ))}
                     </Dropdown.Menu>
                   </Dropdown>
+                  <br></br>
                   {timeAllocation === "Other" && (
-                    <Input
-                      placeholder="Enter Time Allocation"
-                      fullWidth
-                      css={{ marginTop: "1em" }}
-                    />
+                    <Input placeholder="Enter Time Allocation" fullWidth />
                   )}
+                  <br></br>
                 </Grid>
               </Grid>
             </>

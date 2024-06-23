@@ -8,7 +8,7 @@ import React, { useState, useEffect } from "react";
 import { PaymentsIcon } from "../icons/sidebar/payments-icon";
 
 export const TotalQuizzes = () => {
-  const { token } = useSelector((state) => state.auth);
+  const { accessToken } = useSelector((state) => state.auth);
 
   var url = `${CONSTANTS.API_URL_PROD}/admin/statistics`;
   const [totalOrders, setTotalOrders] = useState("");
@@ -16,7 +16,7 @@ export const TotalQuizzes = () => {
   useEffect(() => {
     const fetchNbrOrders = async () => {
       try {
-        const headers = { Authorization: token };
+        const headers = { Authorization: accessToken };
         const { data } = await axios.get(url, {
           headers,
         });

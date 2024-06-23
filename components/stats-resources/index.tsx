@@ -9,14 +9,12 @@ import { TotalTests } from "./total-tests";
 import { TotalTasks } from "./total-tasks";
 
 export const StatsResources = () => (
-  <Box css={{ overflow: "hidden", height: "100%", width: "100%" }}>
+  <Box css={{ overflow: "hidden", height: "60%", width: "100%" }}>
     <Flex
       direction={"column"}
       justify={"center"}
       css={{
         width: "100%",
-        py: "$5",
-        mt: "$8",
         px: "$10",
         "@sm": { px: "$20" },
       }}

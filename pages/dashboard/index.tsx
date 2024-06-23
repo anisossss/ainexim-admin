@@ -3,6 +3,7 @@ import { StatsUsers } from "../../components/stats-users";
 import { StatsResources } from "../../components/stats-resources";
 import { LatestUsers } from "../../components/latest-users";
 import Meta from "../../components/seo";
+import { Grid } from "@nextui-org/react";
 
 const Home: NextPage = () => {
   return (
@@ -14,12 +15,13 @@ const Home: NextPage = () => {
         thumbnail="https://i.postimg.cc/MKBWj4pd/thumbnail.png"
         keywords="AINEXIM, Virtual work"
       ></Meta>
-      <StatsUsers />
-      <StatsResources />
-      <br></br>
+      <Grid className="innerContainer">
+        <StatsUsers />
+        <StatsResources />
 
-      <hr></hr>
-      <LatestUsers />
+        <hr></hr>
+        <LatestUsers />
+      </Grid>
     </>
   );
 };

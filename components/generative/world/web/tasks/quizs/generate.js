@@ -9,26 +9,29 @@ import {
   Progress,
   Dropdown,
 } from "@nextui-org/react";
-import { CONSTANTS } from "../../../../../constants/index.js";
+import { CONSTANTS } from "../../../../../../constants/index.js";
+import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
-export const GenerateWebTasks = () => {
+export const GenerateWebQuizs = () => {
   const [level, setLevel] = useState("");
   const [subject, setSubject] = useState("");
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
   const [programmingLanguage, setProgrammingLanguage] = useState("");
   const [frameworkLibrary, setFrameworkLibrary] = useState("");
   const [timeAllocation, setTimeAllocation] = useState("");
-  const [taskType, setTaskType] = useState("");
-  const [taskContent, setTaskContent] = useState("");
+  const [quizType, setQuizType] = useState("");
+  const [quizContent, setQuizContent] = useState("");
   const [techSkills, setTechSkills] = useState("");
   const [selectedUser, setSelectedUser] = useState(""); // Add state to store selected user
   const [userOptions, setUserOptions] = useState([]); // Add state to store users for dropdown
+  const { accessToken } = useSelector((state) => state.auth);
   useEffect(() => {
-    // Fetch users by name
+    const headers = { Authorization: accessToken };
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          `${CONSTANTS.API_URL_PROD}/admin/users-accounts`
+          `${CONSTANTS.API_URL_PROD}/admin/users-accounts`,
+          { headers }
         );
         console.log(response.data);
         setUserOptions(response.data.users); // Assuming response.data.users is an array of user objects
@@ -77,16 +80,15 @@ export const GenerateWebTasks = () => {
     { value: "Security", label: "Security Practices" },
     { value: "Other", label: "Other" },
   ];
-  const taskContentOptions = [
+  const quizContentOptions = [
     { value: "Syntax", label: "Syntax" },
-    { value: "Best_Practices", label: "Best Practices" },
-    { value: "Design_Patterns", label: "Design Patterns" },
+    { value: "Best_practices", label: "Best Practices" },
+    { value: "Design_patterns", label: "Design Patterns" },
     { value: "Other", label: "Other" },
   ];
-  const taskTypeOptions = [
-    { value: "Development", label: "Development" },
-    { value: "Definitions", label: "Definitions" },
-    { value: "Report", label: "Report" },
+  const quizTypeOptions = [
+    { value: "Single_choice", label: "Single Choice" },
+    { value: "Multiple_choice", label: "Multiple Choice" },
   ];
   const handleSelectionChange = (selectedValue, setFunction) => {
     if (selectedValue === "Other") {
@@ -98,19 +100,24 @@ export const GenerateWebTasks = () => {
   const handleGenerate = async () => {
     setIsLoading(true);
     try {
-      const url = `${CONSTANTS.API_URL_PROD}/generation/generate-web-task/${level}`;
+      let url = `${CONSTANTS.API_URL_PROD}/generation/generate-web-quiz/${level}`;
       const userId = selectedUser ? selectedUser._id : null;
+      const headers = { Authorization: accessToken };
 
       if (selectedUser) {
         url += `?userId=${userId}`;
       }
-      const response = await axios.post(url, {
-        subject,
-        taskType,
-      });
+      const response = await axios.post(
+        url,
+        {
+          subject,
+          quizType,
+        },
+        { headers }
+      );
 
       setIsLoading(false);
-      router.push("/generative-ai/world/web-development/generated/tasks");
+      router.push("/generative-ai/world/web-development/generated/quizzes");
     } catch (err) {
       console.error(err);
       setIsLoading(false);
@@ -122,7 +129,7 @@ export const GenerateWebTasks = () => {
       <Grid css={{ padding: "5%" }}>
         <Grid>
           <Text b size={"$2xl"}>
-            Generate Web Development Tasks (WORLD)
+            Generate Web Development Quizzes (WORLD)
           </Text>
         </Grid>
         <br></br>
@@ -160,24 +167,24 @@ export const GenerateWebTasks = () => {
           <br></br>
           <Grid.Container css={{ alignItems: "center" }}>
             <Grid>
-              <Text b>Type of Task</Text>
+              <Text b>Type of Quiz</Text>
             </Grid>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <Dropdown>
               <Dropdown.Button flat color="warning">
-                {taskType ? taskType : "Select Task Type"}
+                {quizType ? quizType : "Select Quiz Type"}
               </Dropdown.Button>
               <Dropdown.Menu
-                aria-label="Select Task Type"
+                aria-label="Select Quiz Type"
                 color="warning"
                 disallowEmptySelection
                 selectionMode="single"
-                selectedKeys={taskType ? new Set([taskType]) : new Set()}
+                selectedKeys={quizType ? new Set([quizType]) : new Set()}
                 onSelectionChange={(selected) =>
-                  setTaskType(selected.values().next().value)
+                  setQuizType(selected.values().next().value)
                 }
               >
-                {taskTypeOptions.map((option) => (
+                {quizTypeOptions.map((option) => (
                   <Dropdown.Item key={option.value}>
                     {option.label}
                   </Dropdown.Item>
@@ -194,7 +201,7 @@ export const GenerateWebTasks = () => {
             <br></br>
             <Grid>
               <Input
-                placeholder="Subject of the Tasks"
+                placeholder="Subject of the Quizzes"
                 width="100%"
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
@@ -221,8 +228,8 @@ export const GenerateWebTasks = () => {
             <>
               <br></br>
               <br></br>
+              <br></br>
               <Grid.Container css={{ alignItems: "center" }}>
-                {" "}
                 <Text b>Selected User:</Text>
                 <Dropdown>
                   <Dropdown.Button
@@ -397,37 +404,37 @@ export const GenerateWebTasks = () => {
               </Grid>
               <br></br>
               <Grid>
-                <Text b>Type of Task Content</Text>
+                <Text b>Type of Quiz Content</Text>
               </Grid>
               <br></br>
               <Grid>
                 <Dropdown>
                   <Dropdown.Button flat color="warning">
-                    {taskContent ? taskContent : "Select Task Content"}
+                    {quizContent ? quizContent : "Select Quiz Content"}
                   </Dropdown.Button>
                   <Dropdown.Menu
-                    aria-label="Select Task Content"
+                    aria-label="Select Quiz Content"
                     color="warning"
                     disallowEmptySelection
                     selectionMode="single"
                     selectedKeys={
-                      taskContent ? new Set([taskContent]) : new Set()
+                      quizContent ? new Set([quizContent]) : new Set()
                     }
                     onSelectionChange={(selected) =>
-                      setTaskContent(selected.values().next().value)
+                      setQuizContent(selected.values().next().value)
                     }
                   >
-                    {taskContentOptions.map((option) => (
+                    {quizContentOptions.map((option) => (
                       <Dropdown.Item key={option.value}>
                         {option.label}
                       </Dropdown.Item>
                     ))}
                   </Dropdown.Menu>
                 </Dropdown>
-                {taskContent === "Other" && (
+                {quizContent === "Other" && (
                   <>
                     <br></br>
-                    <Input placeholder="Enter Task Content" fullWidth />
+                    <Input placeholder="Enter Quiz Content" fullWidth />
                     <br></br>
                   </>
                 )}

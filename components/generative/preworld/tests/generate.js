@@ -9,6 +9,7 @@ import {
   Progress,
   Dropdown,
 } from "@nextui-org/react";
+import { useSelector } from "react-redux";
 import { CONSTANTS } from "../../../../constants/index.js";
 import { useRouter } from "next/router";
 export const GenerateTests = () => {
@@ -22,13 +23,17 @@ export const GenerateTests = () => {
   const [testContent, setTestContent] = useState("");
   const [techSkills, setTechSkills] = useState("");
   const [selectedUser, setSelectedUser] = useState("");
+  const { accessToken } = useSelector((state) => state.auth);
   const [userOptions, setUserOptions] = useState([]);
+
+  const headers = { Authorization: accessToken };
   useEffect(() => {
     // Fetch users by name
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          `${CONSTANTS.API_URL_PROD}/admin/users-accounts`
+          `${CONSTANTS.API_URL_PROD}/admin/users-accounts`,
+          { headers }
         );
         console.log(response.data);
         setUserOptions(response.data.users); // Assuming response.data.users is an array of user objects
@@ -102,9 +107,13 @@ export const GenerateTests = () => {
         url += `?userId=${userId}`;
       }
 
-      const response = await axios.post(url, {
-        subject,
-      });
+      const response = await axios.post(
+        url,
+        {
+          subject,
+        },
+        { headers }
+      );
 
       setIsLoading(false);
       router.push("/generative-ai/preworld/generated/tests");

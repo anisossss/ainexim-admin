@@ -10,7 +10,7 @@ export const AddUser = () => {
   const [visible, setVisible] = useState(false);
   const router = useRouter();
   const handler = () => setVisible(true);
-  const { token } = useSelector((state) => state.auth);
+  const { accessToken } = useSelector((state) => state.auth);
   const closeHandler = () => {
     setVisible(false);
     console.log("closed");
@@ -25,7 +25,7 @@ export const AddUser = () => {
 
   const addUser = async () => {
     try {
-      const headers = { Authorization: token };
+      const headers = { Authorization: accessToken };
       const data = await axios.post(
         url,
         { user },

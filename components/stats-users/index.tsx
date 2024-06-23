@@ -7,7 +7,7 @@ import { TotalOrders } from "./total-orders";
 import { OnlineUsers } from "./online-users";
 
 export const StatsUsers = () => (
-  <Box css={{ overflow: "hidden", height: "100%", width: "100%" }}>
+  <Box css={{ overflow: "hidden", width: "100%" }}>
     <Flex
       direction={"column"}
       justify={"center"}

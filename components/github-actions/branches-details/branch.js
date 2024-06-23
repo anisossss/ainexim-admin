@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import { AiFillFileExcel } from "react-icons/ai";
 
 export const BranchesDetails = () => {
-  const { token } = useSelector((state) => state.auth);
+  const { accessToken } = useSelector((state) => state.auth);
 
   var url = `${CONSTANTS.API_URL_PROD}/evaluation/users-accounts`;
   const [users, setUsers] = useState([]);
@@ -18,7 +18,7 @@ export const BranchesDetails = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const headers = { Authorization: token };
+        const headers = { Authorization: accessToken };
         const response = await axios.get(url, {
           headers,
         });

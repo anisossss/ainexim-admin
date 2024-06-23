@@ -28,23 +28,15 @@ export const SidebarWrapper = () => {
   return (
     <Box as="aside">
       {collapsed ? <Sidebar.Overlay onClick={setCollapsed} /> : null}
-      <Sidebar
-        collapsed={collapsed}
-        css={{
-          minHeight: "100%",
-          overflowY: "scroll",
-        }}
-      >
-        <Grid css={{ position: "absolute", top: 0 }}>
+      <Sidebar collapsed={collapsed} css={{}}>
+        <Flex direction={"column"} justify={"between"}>
           <Image
             src={"/logo/logo_footer.svg"}
-            width={50}
-            height={0}
+            width={60}
+            height={60}
             alt=""
             objectFit="contain"
           />
-        </Grid>
-        <Flex direction={"column"} justify={"between"}>
           <Sidebar.Body className="body sidebar">
             <SidebarMenu title=" ">
               <SidebarItem
@@ -79,24 +71,16 @@ export const SidebarWrapper = () => {
               />
               <hr></hr>
               <SidebarItem
-                isActive={router.pathname === "/create-teams"}
-                title="Create Teams"
-                icon={<IoCreate color={"#697177"} size={25} />}
-                href="/create-teams"
-              />
-              <SidebarItem
-                isActive={
-                  router.pathname === "/generative-ai/create-certifications"
-                }
-                title="Create Certifications"
-                icon={<IoCreate color={"#697177"} size={25} />}
-                href="/generative-ai/create-certifications"
-              />
-              <SidebarItem
                 isActive={router.pathname === "/generative-ai/create-programs"}
                 title="Create Programs"
                 icon={<IoCreate color={"#697177"} size={25} />}
                 href="/generative-ai/create-programs"
+              />
+              <SidebarItem
+                isActive={router.pathname === "/generative-ai/create-badges"}
+                title="Create Badges"
+                icon={<IoCreate color={"#697177"} size={25} />}
+                href="/generative-ai/create-badges"
               />
               <SidebarItem
                 isActive={router.pathname === "/generative-ai/create-missions"}
@@ -105,16 +89,13 @@ export const SidebarWrapper = () => {
                 href="/generative-ai/create-missions"
               />
               <SidebarItem
-                isActive={router.pathname === "/generative-ai/create-badges"}
-                title="Create Badges"
+                isActive={router.pathname === "/create-teams"}
+                title="Create Teams"
                 icon={<IoCreate color={"#697177"} size={25} />}
-                href="/generative-ai/create-badges"
+                href="/create-teams"
               />
               <hr></hr>
-
-              <Text span size="$md" color="gray">
-                PREWORLD
-              </Text>
+              PREWORLD
               <SidebarItem
                 isActive={
                   router.pathname === "/generative-ai/preworld/generate-tests"
@@ -149,9 +130,7 @@ export const SidebarWrapper = () => {
                 href="/generative-ai/preworld/generated/quizzes"
               />
               <hr></hr>
-              <Text span size="$md" color="gray">
-                WORLD
-              </Text>
+              WORLD
               <SidebarItem
                 isActive={
                   router.pathname ===
@@ -207,9 +186,7 @@ export const SidebarWrapper = () => {
                 href="/generative-ai/world/web-development/generated/meetings"
               />
               <hr></hr>
-              <Text span size="$md" color="gray">
-                GITHUB ACTIONS
-              </Text>
+              GITHUB ACTIONS
               <SidebarItem
                 isActive={router.pathname === "/github/organization-projects"}
                 title="Organization Projects"
@@ -249,9 +226,7 @@ export const SidebarWrapper = () => {
                 href="/github/user-events"
               />
               <hr></hr>
-              <Text span size="$md" color="gray">
-                USERS MONITORING
-              </Text>
+              USERS MONITORING
               <SidebarItem
                 isActive={router.pathname === "/monitoring/online-users"}
                 title="Online Users"
