@@ -1,41 +1,43 @@
 import React, { useState, useEffect } from "react";
-import { CONSTANTS } from "../../../../../constants/index.js";
+import { CONSTANTS } from "../../../../../../constants/index.js";
 import axios from "axios";
 import { Grid, Text } from "@nextui-org/react";
-import WebMeetingCard from "./web-meeting-card.js";
+import WebProblemSolvingTestCard from "./problem-card.js";
 import { useSelector } from "react-redux";
 
-export const TableWebMeetings = () => {
-  const [webMeetings, setWebMeetings] = useState([]);
+export const TableWebProblemSolvingTest = () => {
+  const [webProblemSolvingTest, setWebProblemSolvingTest] = useState([]);
   const { accessToken } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const headers = { Authorization: accessToken };
-    const fetchMeetings = async () => {
+    const fetchWebProblemSolvingTest = async () => {
       try {
-        var url = `${CONSTANTS.API_URL_PROD}/generation/get-web-meetings`;
+        var url = `${CONSTANTS.API_URL_PROD}/generation/get-web-problem-solving-tests`;
         const response = await axios.get(url, { headers });
-        console.log("data", response.data.webMeetings);
-        setWebMeetings(response.data.webMeetings);
+        console.log("data", response.data.webProblemSolvingTests);
+        setWebProblemSolvingTest(response.data.webProblemSolvingTests);
       } catch (error) {
         console.error("Error fetching requests", error);
       }
     };
-    fetchMeetings();
+    fetchWebProblemSolvingTest();
   }, []);
 
   return (
     <Grid className="innerContainer">
       <Grid>
         <Text b size={"$2xl"}>
-          Generated Web Development Meetings (WORLD)
+          Generated Web Porblem Solving Tests
         </Text>
       </Grid>
       <br></br>
       <Grid.Container gap={2} css={{ height: "auto" }}>
-        {webMeetings.map((webMeeting) => (
-          <Grid md={12} key={webMeeting._id}>
-            <WebMeetingCard webMeeting={webMeeting} />
+        {webProblemSolvingTest.map((problemSolvingTest) => (
+          <Grid md={12} key={problemSolvingTest._id}>
+            <WebProblemSolvingTestCard
+              problemSolvingTest={problemSolvingTest}
+            />
           </Grid>
         ))}
       </Grid.Container>

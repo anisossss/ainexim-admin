@@ -28,7 +28,7 @@ export const TableWebMeetings = () => {
     <Grid className="innerContainer">
       <Grid>
         <Text b size={"$2xl"}>
-          Generated Web Development Meetings (WORLD)
+          Generated Web Development Meetings
         </Text>
       </Grid>
       <br></br>

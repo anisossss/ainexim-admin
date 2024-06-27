@@ -32,7 +32,8 @@
     "components/generative/courses/index.js",
     "pages/all-users/index.js",
     "components/monitoring/online-users.jsx",
-    "components/monitoring/users-activity.jsx"
+    "components/monitoring/users-activity.jsx",
+    "pages/generative-ai/world/web/missions/generated"
   ],
   "exclude": ["node_modules"]
 }

@@ -26,9 +26,8 @@ export const GenerateTests = () => {
   const { accessToken } = useSelector((state) => state.auth);
   const [userOptions, setUserOptions] = useState([]);
 
-  const headers = { Authorization: accessToken };
   useEffect(() => {
-    // Fetch users by name
+    const headers = { Authorization: accessToken };
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
@@ -36,14 +35,14 @@ export const GenerateTests = () => {
           { headers }
         );
         console.log(response.data);
-        setUserOptions(response.data.users); // Assuming response.data.users is an array of user objects
+        setUserOptions(response.data.users);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
     };
 
     fetchUsers();
-  }, []); // Run only once when component mounts
+  }, []);
   const toggleAdvancedOptions = () => {
     setShowAdvancedOptions(!showAdvancedOptions);
   };
@@ -101,8 +100,8 @@ export const GenerateTests = () => {
     try {
       let url = `${CONSTANTS.API_URL_PROD}/generation/generate-software-test/${level}`;
       const userId = selectedUser ? selectedUser._id : null;
+      const headers = { Authorization: accessToken };
 
-      // Add selected user's ID to the query
       if (selectedUser) {
         url += `?userId=${userId}`;
       }
@@ -116,7 +115,7 @@ export const GenerateTests = () => {
       );
 
       setIsLoading(false);
-      router.push("/generative-ai/preworld/generated/tests");
+      router.push("/generative-ai/preworld/software-tests");
     } catch (err) {
       console.error(err);
       setIsLoading(false);
@@ -125,10 +124,10 @@ export const GenerateTests = () => {
 
   return (
     <>
-      <Grid css={{ padding: "5%" }}>
+      <Grid css={{ padding: "5%", height: "100vh", overflowY: "scroll" }}>
         <Grid>
           <Text b size={"$2xl"}>
-            Generate Software Development Tests - (2 per Request)
+            Generate Software Development Tests
           </Text>
         </Grid>
         <br></br>

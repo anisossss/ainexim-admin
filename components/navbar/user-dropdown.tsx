@@ -6,8 +6,8 @@ export const UserDropdown = () => {
   const router = useRouter();
 
   const handleLogout = () => {
-    localStorage.clear(); // clear cache
-    router.push("/auth/login"); // redirect to login page
+    localStorage.clear();
+    router.reload();
   };
   return (
     <Dropdown placement="bottom-right">
@@ -25,6 +25,7 @@ export const UserDropdown = () => {
       <Dropdown.Menu
         aria-label="User menu actions"
         onAction={(actionKey) => console.log({ actionKey })}
+        color="success"
       >
         <Dropdown.Item key="profile" css={{ height: "$18" }}>
           <Text b color="inherit" css={{ d: "flex" }}>
@@ -34,11 +35,9 @@ export const UserDropdown = () => {
             admin@ainexim.com
           </Text>
         </Dropdown.Item>
-        <Dropdown.Item key="settings" withDivider>
-          Settings
-        </Dropdown.Item>
+
         <Dropdown.Item key="logout" withDivider color="error">
-          <Text span onClick={handleLogout}>
+          <Text b onClick={handleLogout} color="error">
             Logout
           </Text>
         </Dropdown.Item>

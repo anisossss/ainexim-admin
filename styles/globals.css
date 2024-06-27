@@ -9,15 +9,13 @@ body {
   width: 4px;
 }
 ::-webkit-scrollbar-thumb {
-  background: -webkit-linear-gradient(#00000000, #89a9df, #00000000);
+  background: -webkit-linear-gradient(#00000000, #029dbb, #00000000);
 }
-/* Firefox */
 ::-moz-scrollbar-thumb {
-  background: -webkit-linear-gradient(#00000000, #89a9df, #00000000);
+  background: -webkit-linear-gradient(#00000000, #029dbb, #00000000);
 }
-/* IE and Edge */
 *::-ms-scrollbar-thumb {
-  background: -webkit-linear-gradient(#00000000, #89a9df, #00000000);
+  background: -webkit-linear-gradient(#00000000, #029dbb, #00000000);
 }
 *::-ms-scrollbar {
   -ms-overflow-style: none;
@@ -32,15 +30,20 @@ body {
 .task_title {
   font-size: 1.2em;
   font-weight: 600;
-  color: #89a9df;
+  color: #029dbb;
 }
 .container {
   margin-left: auto;
   margin-right: auto;
   padding-left: 1rem;
   padding-right: 1rem;
+  width: 50%;
 }
-
+@media screen and (max-width: 776px) {
+  .container {
+    width: 90%;
+  }
+}
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -85,15 +88,15 @@ body {
 }
 
 .bg-gradient-to-r {
-  background: linear-gradient(to right, #6366f1, #4f46e5);
+  background: #029dbb;
 }
 
 .from-purple-400 {
-  background-color: #a78bfa;
+  background-color: #029dbb;
 }
 
 .to-indigo-500 {
-  background-color: #907ad6;
+  background-color: #029dbb;
 }
 
 .rounded-lg {

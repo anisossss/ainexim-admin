@@ -11,7 +11,6 @@ import { SidebarMenu } from "./sidebar-menu";
 import { useSidebarContext } from "../layout/layout-context";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { Text, Grid } from "@nextui-org/react";
 import { IoCreate } from "react-icons/io5";
 import { RiGitRepositoryCommitsLine } from "react-icons/ri";
 import { IoGitCommitSharp } from "react-icons/io5";
@@ -71,119 +70,141 @@ export const SidebarWrapper = () => {
               />
               <hr></hr>
               <SidebarItem
-                isActive={router.pathname === "/generative-ai/create-programs"}
+                isActive={
+                  router.pathname === "/generative-ai/world/web/programs/create"
+                }
                 title="Create Programs"
                 icon={<IoCreate color={"#697177"} size={25} />}
-                href="/generative-ai/create-programs"
+                href="/generative-ai/world/web/programs/create"
               />
               <SidebarItem
-                isActive={router.pathname === "/generative-ai/create-badges"}
-                title="Create Badges"
-                icon={<IoCreate color={"#697177"} size={25} />}
-                href="/generative-ai/create-badges"
+                isActive={
+                  router.pathname === "/generative-ai/world/web/programs"
+                }
+                title="List Web Development Programs"
+                icon={<ReportsIcon />}
+                href="/generative-ai/world/web/programs"
               />
               <SidebarItem
-                isActive={router.pathname === "/generative-ai/create-missions"}
-                title="Create Missions"
-                icon={<IoCreate color={"#697177"} size={25} />}
-                href="/generative-ai/create-missions"
-              />
-              <SidebarItem
-                isActive={router.pathname === "/create-teams"}
+                isActive={
+                  router.pathname === "/generative-ai/world/web/teams/create"
+                }
                 title="Create Teams"
                 icon={<IoCreate color={"#697177"} size={25} />}
-                href="/create-teams"
+                href="/generative-ai/world/web/teams/create"
+              />
+              <SidebarItem
+                isActive={router.pathname === "/generative-ai/world/web/teams"}
+                title="List Team"
+                icon={<ReportsIcon />}
+                href="/generative-ai/world/web/teams"
               />
               <hr></hr>
               PREWORLD
               <SidebarItem
                 isActive={
-                  router.pathname === "/generative-ai/preworld/generate-tests"
+                  router.pathname ===
+                  "/generative-ai/preworld/software-tests/generate"
                 }
-                title="Generate Tests"
+                title="Generate Software Tests"
                 icon={<IoCreate color={"#697177"} size={25} />}
-                href="/generative-ai/preworld/generate-tests"
+                href="/generative-ai/preworld/software-tests/generate"
               />
               <SidebarItem
                 isActive={
-                  router.pathname === "/generative-ai/preworld/generated/tests"
+                  router.pathname === "/generative-ai/preworld/software-tests"
                 }
-                title="Generated Tests"
+                title="All Software Tests"
                 icon={<ReportsIcon />}
-                href="/generative-ai/preworld/generated/tests"
-              />
-              <SidebarItem
-                isActive={
-                  router.pathname === "/generative-ai/preworld/generate-quizzes"
-                }
-                title="Generate Quizzes"
-                icon={<IoCreate color={"#697177"} size={25} />}
-                href="/generative-ai/preworld/generate-quizzes"
+                href="/generative-ai/preworld/software-tests"
               />
               <SidebarItem
                 isActive={
                   router.pathname ===
-                  "/generative-ai/preworld/generated/quizzes"
+                  "/generative-ai/preworld/software-quizzes/generate"
                 }
-                title="Generated Quizzes"
+                title="Generate Software Quizzes"
+                icon={<IoCreate color={"#697177"} size={25} />}
+                href="/generative-ai/preworld/software-quizzes/generate"
+              />
+              <SidebarItem
+                isActive={
+                  router.pathname === "/generative-ai/preworld/software-quizzes"
+                }
+                title="All Software Quizzes"
                 icon={<ReportsIcon />}
-                href="/generative-ai/preworld/generated/quizzes"
+                href="/generative-ai/preworld/software-quizzes"
               />
               <hr></hr>
               WORLD
               <SidebarItem
                 isActive={
                   router.pathname ===
-                  "/generative-ai/world/web-development/generate-tasks"
+                  "/generative-ai/world/web/tasks/dev/generate"
                 }
-                title="Generate Web Tasks"
+                title="Generate Web Coding Tasks"
                 icon={<IoCreate color={"#697177"} size={25} />}
-                href="/generative-ai/world/web-development/generate-tasks"
+                href="/generative-ai/world/web/tasks/dev/generate"
               />
               <SidebarItem
                 isActive={
-                  router.pathname ===
-                  "/generative-ai/world/web-development/generated/tasks"
+                  router.pathname === "/generative-ai/world/web/tasks/dev"
                 }
-                title="Generated Web Tasks"
+                title="All Web Coding Tasks"
                 icon={<ReportsIcon />}
-                href="/generative-ai/world/web-development/generated/tasks"
+                href="/generative-ai/world/web/tasks/dev"
               />
               <SidebarItem
                 isActive={
                   router.pathname ===
-                  "/generative-ai/world/web-development/generate-quizzes"
+                  "/generative-ai/world/web/tasks/quizzes/generate"
                 }
                 title="Generate Web Quizzes"
                 icon={<IoCreate color={"#697177"} size={24} />}
-                href="/generative-ai/world/web-development/generate-quizzes"
+                href="/generative-ai/world/web/tasks/quizzes/generate"
               />
               <SidebarItem
                 isActive={
-                  router.pathname ===
-                  "/generative-ai/world/web-development/generated/quizzes"
+                  router.pathname === "/generative-ai/world/web/tasks/quizzes"
                 }
-                title="Generated Web Quizzes"
+                title="All Web Quizzes"
                 icon={<ReportsIcon />}
-                href="/generative-ai/world/web-development/generated/quizzes"
+                href="/generative-ai/world/web/tasks/quizzes"
               />
               <SidebarItem
                 isActive={
                   router.pathname ===
-                  "/generative-ai/world/web-development/generate-meetings"
+                  "/generative-ai/world/web/meetings/generate"
                 }
                 title="Generate Web Meetings"
                 icon={<IoCreate color={"#697177"} size={24} />}
-                href="/generative-ai/world/web-development/generate-meetings"
+                href="/generative-ai/world/web/tasks/meetings/generate"
+              />
+              <SidebarItem
+                isActive={
+                  router.pathname === "/generative-ai/world/web/tasks/meetings"
+                }
+                title="All Web Meetings"
+                icon={<ReportsIcon />}
+                href="/generative-ai/world/web/tasks/meetings"
               />
               <SidebarItem
                 isActive={
                   router.pathname ===
-                  "/generative-ai/world/web-development/generated/meetings"
+                  "/generative-ai/world/web/problem-solving/generate"
                 }
-                title="Generated Web Meetings"
+                title="Generate Web Problem Solving Tests"
+                icon={<IoCreate color={"#697177"} size={24} />}
+                href="/generative-ai/world/web/tasks/problem-solving/generate"
+              />
+              <SidebarItem
+                isActive={
+                  router.pathname ===
+                  "/generative-ai/world/web/tasks/problem-solving"
+                }
+                title="All Web Problem Solving Tests"
                 icon={<ReportsIcon />}
-                href="/generative-ai/world/web-development/generated/meetings"
+                href="/generative-ai/world/web/tasks/problem-solving"
               />
               <hr></hr>
               GITHUB ACTIONS

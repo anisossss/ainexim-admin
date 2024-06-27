@@ -105,6 +105,7 @@ export const GenerateQuiz = () => {
     try {
       let url = `${CONSTANTS.API_URL_PROD}/generation/generate-software-quiz/${level}`;
       const userId = selectedUser ? selectedUser._id : null;
+      const headers = { Authorization: accessToken };
 
       if (selectedUser) {
         url += `?userId=${userId}`;
@@ -117,7 +118,7 @@ export const GenerateQuiz = () => {
         { headers }
       );
       setIsLoading(false);
-      router.push("/generative-ai/preworld/generated/quizzes");
+      router.push("/generative-ai/preworld/software-quizzes");
     } catch (err) {
       console.error(err);
       setIsLoading(false);
@@ -126,10 +127,10 @@ export const GenerateQuiz = () => {
 
   return (
     <>
-      <Grid css={{ padding: "5%" }}>
+      <Grid css={{ padding: "5%", height: "100vh", overflowY: "scroll" }}>
         <Grid>
           <Text b size={"$2xl"}>
-            Generate Software Development Quizzes - (2 per Request)
+            Generate Software Development Quizzes
           </Text>
         </Grid>
         <br></br>

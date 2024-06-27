@@ -46,14 +46,14 @@ export const SidebarItem = ({ icon, title, isActive, href = "" }: Props) => {
               ? {
                   bg: "$blue100",
                   "& svg path": {
-                    fill: "$blue700",
+                    fill: "#029DBB",
                   },
                 }
               : {
                   "&:hover": {
                     bg: "$blue100",
                     "& svg path": {
-                      fill: "$blue700",
+                      fill: "#029DBB",
                     },
                   },
                 }),

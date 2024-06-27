@@ -106,7 +106,7 @@ export const GenerateWebTasks = () => {
     try {
       const headers = { Authorization: accessToken };
 
-      const url = `${CONSTANTS.API_URL_PROD}/generation/generate-web-task/${level}`;
+      const url = `${CONSTANTS.API_URL_PROD}/generation/generate-web-dev-task/${level}`;
       const userId = selectedUser ? selectedUser._id : null;
 
       if (selectedUser) {
@@ -122,7 +122,7 @@ export const GenerateWebTasks = () => {
       );
 
       setIsLoading(false);
-      router.push("/generative-ai/world/web-development/generated/tasks");
+      router.push("/generative-ai/world/web/tasks/dev");
     } catch (err) {
       console.error(err);
       setIsLoading(false);
@@ -131,10 +131,10 @@ export const GenerateWebTasks = () => {
 
   return (
     <>
-      <Grid css={{ padding: "5%" }}>
+      <Grid css={{ padding: "5%", height: "100vh", overflowY: "scroll" }}>
         <Grid>
           <Text b size={"$2xl"}>
-            Generate Web Development Tasks (WORLD)
+            Generate Web Development Tasks
           </Text>
         </Grid>
         <br></br>

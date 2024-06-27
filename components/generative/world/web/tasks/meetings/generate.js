@@ -106,10 +106,9 @@ export const GenerateWebMeeting = () => {
   const handleGenerate = async () => {
     setIsLoading(true);
     try {
-      // Convert selectedUsers set to an array of user IDs
       const userIds = Array.from(selectedUsers);
+      const headers = { Authorization: accessToken };
 
-      // Make a request to generate and store the meeting for each user
       const response = await axios.post(
         `${CONSTANTS.API_URL_PROD}/generation/generate-web-meeting/${level}`,
         {
@@ -118,17 +117,16 @@ export const GenerateWebMeeting = () => {
         },
         {
           params: {
-            userIds: userIds, // Send the user IDs as an array in the query parameters
+            userIds: userIds,
           },
         },
         { headers }
       );
 
-      // Handle the response if needed
       console.log(response.data);
 
       setIsLoading(false);
-      router.push("/generative-ai/world/web-development/generated/meetings");
+      router.push("/generative-ai/world/web/tasks/meetings");
     } catch (err) {
       console.error(err);
       setIsLoading(false);
@@ -137,10 +135,10 @@ export const GenerateWebMeeting = () => {
 
   return (
     <>
-      <Grid css={{ padding: "5%" }}>
+      <Grid css={{ padding: "5%", height: "100vh", overflowY: "scroll" }}>
         <Grid>
           <Text b size={"$2xl"}>
-            Generate Web Development Meeting Task (1 meeting per request)
+            Generate Web Development Meeting Task
           </Text>
         </Grid>
         <br></br>

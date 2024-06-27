@@ -13,7 +13,7 @@ export const TableWebTasks = () => {
 
     const fetchTasks = async () => {
       try {
-        var url = `${CONSTANTS.API_URL_PROD}/generation/get-web-tasks`;
+        var url = `${CONSTANTS.API_URL_PROD}/generation/get-web-dev-tasks`;
         const response = await axios.get(url, { headers });
         setWebTasks(response.data.tasks);
       } catch (error) {
@@ -27,7 +27,7 @@ export const TableWebTasks = () => {
     <Grid className="innerContainer">
       <Grid>
         <Text b size={"$2xl"}>
-          Generated Web Development Tasks (WORLD)
+          Generated Web Development Tasks
         </Text>
       </Grid>
       <br></br>

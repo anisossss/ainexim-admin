@@ -117,7 +117,7 @@ export const GenerateWebQuizs = () => {
       );
 
       setIsLoading(false);
-      router.push("/generative-ai/world/web-development/generated/quizzes");
+      router.push("/generative-ai/world/web/tasks/quizzes");
     } catch (err) {
       console.error(err);
       setIsLoading(false);
@@ -126,10 +126,10 @@ export const GenerateWebQuizs = () => {
 
   return (
     <>
-      <Grid css={{ padding: "5%" }}>
+      <Grid css={{ padding: "5%", height: "100vh", overflowY: "scroll" }}>
         <Grid>
           <Text b size={"$2xl"}>
-            Generate Web Development Quizzes (WORLD)
+            Generate Web Development Quizzes
           </Text>
         </Grid>
         <br></br>

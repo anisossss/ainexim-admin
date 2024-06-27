@@ -28,7 +28,7 @@ export const TableWebQuiz = () => {
     <Grid className="innerContainer">
       <Grid>
         <Text b size={"$2xl"}>
-          Generated Web Development Quizzes (WORLD)
+          Generated Web Development Quizzes
         </Text>
       </Grid>
       <br></br>

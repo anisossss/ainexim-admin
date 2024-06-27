@@ -4,10 +4,14 @@ import { Switch, useTheme } from "@nextui-org/react";
 
 export const DarkModeSwitch = () => {
   const { setTheme } = useNextTheme();
-  const { isDark, type } = useTheme();
+  const { isDark } = useTheme();
   return (
     <Switch
-      color={"primary"}
+      css={{
+        "& .nextui-switch-checked": {
+          backgroundColor: isDark ? "#029DBB" : "lightgrey",
+        },
+      }}
       checked={isDark}
       onChange={(e) => setTheme(e.target.checked ? "dark" : "light")}
     />

@@ -9,22 +9,21 @@ import {
   Progress,
   Dropdown,
 } from "@nextui-org/react";
-import { CONSTANTS } from "../../../../../constants/index.js";
+import { CONSTANTS } from "../../../../../../constants/index.js";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
-export const GenerateWebMeeting = () => {
+export const GenerateProblemSolvingTest = () => {
   const [level, setLevel] = useState("");
   const [subject, setSubject] = useState("");
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
   const [programmingLanguage, setProgrammingLanguage] = useState("");
   const [frameworkLibrary, setFrameworkLibrary] = useState("");
   const [timeAllocation, setTimeAllocation] = useState("");
-  const [meetingType, setMeetingType] = useState("");
+  const [testType, setTestType] = useState("");
   const [meetingContent, setMeetingContent] = useState("");
   const [techSkills, setTechSkills] = useState("");
-  const [selectedUsers, setSelectedUsers] = useState(new Set());
+  const [selectedUser, setSelectedUser] = useState(""); // Add state to store selected user
   const [userOptions, setUserOptions] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
   const { accessToken } = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -89,46 +88,44 @@ export const GenerateWebMeeting = () => {
     { value: "Design Patterns", label: "Design Patterns" },
     { value: "Other", label: "Other" },
   ];
-  const meetingTypeOptions = [
-    { value: "Sprint Planning", label: "Sprint Planning" },
-    { value: "Daily Scrum", label: "Daily Scrum" },
-    { value: "Code Review", label: "Code Review" },
-    {
-      value: "Technical Knowledge Sharing",
-      label: "Technical Knowledge Sharing",
-    },
+  const testTypeOptions = [
+    { value: "Logical Problem Solving", label: "Logical Problem Solving" },
+    { value: "Analytical Thinking", label: "Analytical Thinking" },
+    { value: "Critical Thinking", label: "Critical Thinking" },
+    { value: "Creative Problem Solving", label: "Creative Problem Solving" },
+    { value: "Decision Making", label: "Decision Making" },
   ];
-  const handleSelectionChange = (selected) => {
-    if (selected.size > 2) return;
-
-    setSelectedUsers(selected);
+  const handleSelectionChange = (selectedValue, setFunction) => {
+    if (selectedValue === "Other") {
+      setFunction("Other");
+    } else {
+      setFunction(selectedValue);
+    }
   };
   const handleGenerate = async () => {
     setIsLoading(true);
     try {
-      // Convert selectedUsers set to an array of user IDs
-      const userIds = Array.from(selectedUsers);
+      const userId = selectedUser ? selectedUser._id : null;
+      const url = `${CONSTANTS.API_URL_PROD}/generation/generate-web-problem-solving-test/${level}`;
+      const headers = { Authorization: accessToken };
 
-      // Make a request to generate and store the meeting for each user
+      if (selectedUser) {
+        url += `?userId=${userId}`;
+      }
       const response = await axios.post(
-        `${CONSTANTS.API_URL_PROD}/generation/generate-web-meeting/${level}`,
+        url,
         {
           subject,
-          type: meetingType,
+          type: testType,
         },
-        {
-          params: {
-            userIds: userIds, // Send the user IDs as an array in the query parameters
-          },
-        },
+
         { headers }
       );
 
-      // Handle the response if needed
       console.log(response.data);
 
       setIsLoading(false);
-      router.push("/generative-ai/world/web-development/generated/meetings");
+      router.push("/generative-ai/world/web/tasks/problem-solving");
     } catch (err) {
       console.error(err);
       setIsLoading(false);
@@ -137,10 +134,10 @@ export const GenerateWebMeeting = () => {
 
   return (
     <>
-      <Grid css={{ padding: "5%" }}>
+      <Grid css={{ padding: "5%", height: "100vh", overflowY: "scroll" }}>
         <Grid>
           <Text b size={"$2xl"}>
-            Generate Web Development Meeting Task (1 meeting per request)
+            Generate Web Development Problem Solving Test
           </Text>
         </Grid>
         <br></br>
@@ -178,24 +175,24 @@ export const GenerateWebMeeting = () => {
           <br></br>
           <Grid.Container css={{ alignItems: "center" }}>
             <Grid>
-              <Text b>Type of Meeting</Text>
+              <Text b>Type of Problem Solving Test</Text>
             </Grid>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <Dropdown>
               <Dropdown.Button flat color="warning">
-                {meetingType ? meetingType : "Select Meeting Type"}
+                {testType ? testType : "Select Problem Solving Test Type"}
               </Dropdown.Button>
               <Dropdown.Menu
-                aria-label="Select Meeting Type"
+                aria-label="Select Problem Solving Test Type"
                 color="warning"
                 disallowEmptySelection
                 selectionMode="single"
-                selectedKeys={meetingType ? new Set([meetingType]) : new Set()}
+                selectedKeys={testType ? new Set([testType]) : new Set()}
                 onSelectionChange={(selected) =>
-                  setMeetingType(selected.values().next().value)
+                  setTestType(selected.values().next().value)
                 }
               >
-                {meetingTypeOptions.map((option) => (
+                {testTypeOptions.map((option) => (
                   <Dropdown.Item key={option.value} css={{ height: "100%" }}>
                     {option.label}
                   </Dropdown.Item>
@@ -243,33 +240,41 @@ export const GenerateWebMeeting = () => {
                 {" "}
                 <Text b>Selected User:</Text>
                 <Dropdown>
-                  <Dropdown.Button flat color="warning">
-                    {selectedUsers.size === 0
-                      ? "Select Users"
-                      : Array.from(selectedUsers)
-                          .map(
-                            (userId) =>
-                              userOptions.find((user) => user._id === userId)
-                                .name
-                          )
-                          .join(", ")}
+                  <Dropdown.Button
+                    flat
+                    color="warning"
+                    css={{ marginLeft: "5px" }}
+                  >
+                    {selectedUser ? selectedUser.name : "Select User"}
                   </Dropdown.Button>
                   <Dropdown.Menu
-                    aria-label="Select Users"
-                    maxSelections={2}
+                    aria-label="Select User"
                     color="warning"
                     disallowEmptySelection
-                    selectionMode="multiple"
-                    selectedKeys={selectedUsers}
-                    onSelectionChange={handleSelectionChange} // Use the custom handler
+                    selectionMode="single"
+                    selectedKeys={
+                      selectedUser ? new Set([selectedUser._id]) : new Set()
+                    }
+                    onSelectionChange={(selected) =>
+                      setSelectedUser(
+                        userOptions.find(
+                          (user) => user._id === selected.values().next().value
+                        )
+                      )
+                    }
                   >
                     {userOptions.map((user) => (
-                      <Dropdown.Item key={user._id}>{user.name}</Dropdown.Item>
+                      <Dropdown.Item key={user._id}>
+                        <Text span size={"$sm"}>
+                          {user.name}
+                        </Text>
+                      </Dropdown.Item>
                     ))}
                   </Dropdown.Menu>
                 </Dropdown>
               </Grid.Container>
               <br></br>
+
               <Grid css={{ alignItems: "center" }}>
                 <Grid>
                   <Text b>Programming Language</Text>
